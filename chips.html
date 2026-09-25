@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>手机芯片排行榜</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:#f5f7ff;
+  background:
+    radial-gradient(circle at 20% 0%,#263cff33,transparent 35%),
+    radial-gradient(circle at 90% 20%,#00c8ff22,transparent 35%),
+    #070b14;
+}
+
+header{
+  position:sticky;
+  top:0;
+  z-index:10;
+  padding:18px 16px;
+  background:#080c14dd;
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid #ffffff18;
+}
+
+.header{
+  max-width:1000px;
+  margin:auto;
+}
+
+.back{
+  display:inline-block;
+  color:#9db7ff;
+  text-decoration:none;
+  margin-bottom:12px;
+}
+
+h1{
+  margin:0;
+  font-size:28px;
+}
+
+.sub{
+  color:#9aa6bd;
+  margin-top:6px;
+  font-size:13px;
+}
+
+main{
+  max-width:1000px;
+  margin:auto;
+  padding:20px 14px 50px;
+}
+
+.tools{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
+}input,select,button{
+  border:1px solid #ffffff18;
+  border-radius:12px;
+  background:#111827;
+  color:white;
+  padding:12px 14px;
+  font-size:14px;
+}
+
+input{
+  flex:1;
+  min-width:190px;
+}
+
+button{
+  cursor:pointer;
+}
+
+button:hover{
+  background:#1b263b;
+}
+
+.update{
+  background:#fff;
+  color:#10131d;
+}
+
+.card{
+  border:1px solid #ffffff15;
+  background:#ffffff08;
+  border-radius:18px;
+  padding:17px;
+  margin-bottom:12px;
+  box-shadow:0 12px 35px #0005;
+}
+
+.rank{
+  display:flex;
+  gap:14px;
+  align-items:center;
+}
+
+.num{
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#ffffff0d;
+  font-weight:800;
+  font-size:18px;
+}
+
+.info{
+  flex:1;
+}
+
+.name{
+  font-size:18px;
+  font-weight:800;
+}
+
+.brand{
+  color:#9aa6bd;
+  font-size:13px;
+  margin-top:4px;
+}
+
+.score{
+  text-align:right;
+}
+
+.score b{
+  font-size:22px;
+}
+
+.score small{
+  display:block;
+  color:#8e9ab0;
+}
+
+.details{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin-top:15px;
+}
+
+.detail{
+  background:#00000022;
+  border-radius:10px;
+  padding:10px;
+}
+
+.detail span{
+  display:block;
+  color:#7f8ba3;
+  font-size:11px;
+}
+
+.detail b{
+  display:block;
+  margin-top:3px;
+  font-size:13px;
+}
+
+.footer{
+  text-align:center;
+  color:#6f7b91;
+  font-size:12px;
+  margin-top:25px;
+}
+
+.empty{
+  text-align:center;
+  padding:50px 20px;
+  color:#8995aa;
+}
+
+@media(max-width:650px){
+  h1{font-size:24px}
+  .details{grid-template-columns:repeat(2,1fr)}
+  .score b{font-size:18px}
+  .name{font-size:16px}
+}
+</style>
+</head><body>
+
+<header>
+  <div class="header">
+    <a class="back" href="index.html">← 返回主页</a>
+
+    <h1>📱 手机芯片排行榜</h1>
+
+    <div class="sub">
+      SoC 性能资料库 · 支持搜索与品牌筛选
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <div class="tools">
+
+    <input
+      id="search"
+      placeholder="搜索芯片名称，例如 Snapdragon、天玑、A系列"
+    >
+
+    <select id="brand">
+      <option value="全部">全部品牌</option>
+      <option value="Qualcomm">Qualcomm</option>
+      <option value="MediaTek">MediaTek</option>
+      <option value="Apple">Apple</option>
+      <option value="Huawei">Huawei</option>
+      <option value="Samsung">Samsung</option>
+    </select>
+
+    <button class="update" onclick="refreshData()">
+      🔄 更新数据
+    </button>
+
+  </div>
+
+  <div id="status" class="sub" style="margin-bottom:15px"></div>
+
+  <div id="list"></div>
+
+  <div class="footer">
+    数据更新时间：<span id="time">--</span><br>
+    本页面排行榜分数仅用于网站展示与比较，不代表官方排名。
+  </div>
+
+</main>
+
+<script>
+
+const chips = [
+
+  {
+    name:"Snapdragon 8 Elite",
+    brand:"Qualcomm",
+    score:100,
+    cpu:"旗舰级",
+    gpu:"Adreno",
+    process:"3nm",
+    year:"2024"
+  },
+
+  {
+    name:"Dimensity 9400",
+    brand:"MediaTek",
+    score:98,
+    cpu:"旗舰级",
+    gpu:"Immortalis-G925",
+    process:"3nm",
+    year:"2024"
+  },
+
+  {
+    name:"Apple A18 Pro",
+    brand:"Apple",
+    score:97,
+    cpu:"旗舰级",
+    gpu:"Apple GPU",
+    process:"3nm",
+    year:"2024"
+  },
+
+  {
+    name:"Snapdragon 8 Gen 3",
+    brand:"Qualcomm",
+    score:94,
+    cpu:"旗舰级",
+    gpu:"Adreno 750",
+    process:"4nm",
+    year:"2023"
+  },
+
+  {
+    name:"Dimensity 9300",
+    brand:"MediaTek",
+    score:93,
+    cpu:"旗舰级",
+    gpu:"Immortalis-G720",
+    process:"4nm",
+    year:"2023"
+  },
+
+  {
+    name:"Apple A17 Pro",
+    brand:"Apple",
+    score:92,
+    cpu:"旗舰级",
+    gpu:"Apple GPU",
+    process:"3nm",
+    year:"2023"
+  },
+
+  {
+    name:"Kirin 9010",
+    brand:"Huawei",
+    score:82,
+    cpu:"旗舰级",
+    gpu:"Maleoon",
+    process:"7nm级",
+    year:"2024"
+  },
+
+  {
+    name:"Exynos 2400",
+    brand:"Samsung",
+    score:88,
+    cpu:"旗舰级",
+    gpu:"Xclipse 940",
+    process:"4nm",
+    year:"2024"
+  }
+
+];function render(){
+
+  const search =
+    document.getElementById("search").value
+    .toLowerCase()
+    .trim();
+
+  const brand =
+    document.getElementById("brand").value;
+
+  const filtered = chips
+    .filter(c =>
+      brand === "全部" || c.brand === brand
+    )
+    .filter(c =>
+      c.name.toLowerCase().includes(search) ||
+      c.brand.toLowerCase().includes(search)
+    )
+    .sort((a,b)=>b.score-a.score);
+
+  const list = document.getElementById("list");
+
+  if(!filtered.length){
+
+    list.innerHTML =
+      `<div class="empty">没有找到对应芯片</div>`;
+
+    return;
+  }
+
+  list.innerHTML = filtered.map((c,i)=>`
+
+    <div class="card">
+
+      <div class="rank">
+
+        <div class="num">
+          ${i+1}
+        </div>
+
+        <div class="info">
+
+          <div class="name">
+            ${c.name}
+          </div>
+
+          <div class="brand">
+            ${c.brand} · ${c.year}
+          </div>
+
+        </div>
+
+        <div class="score">
+
+          <b>${c.score}</b>
+
+          <small>
+            综合指数
+          </small>
+
+        </div>
+
+      </div>
+
+      <div class="details">
+
+        <div class="detail">
+          <span>CPU</span>
+          <b>${c.cpu}</b>
+        </div>
+
+        <div class="detail">
+          <span>GPU</span>
+          <b>${c.gpu}</b>
+        </div>
+
+        <div class="detail">
+          <span>制程</span>
+          <b>${c.process}</b>
+        </div>
+
+        <div class="detail">
+          <span>发布时间</span>
+          <b>${c.year}</b>
+        </div>
+
+      </div>
+
+    </div>
+
+  `).join("");
+
+}
+
+function refreshData(){
+
+  const now = new Date();
+
+  document.getElementById("time").textContent =
+    now.toLocaleString("zh-CN");
+
+  document.getElementById("status").textContent =
+    "数据已刷新 · 当前为本地资料库";
+
+  render();
+
+}
+
+document
+  .getElementById("search")
+  .addEventListener("input",render);
+
+document
+  .getElementById("brand")
+  .addEventListener("change",render);
+
+refreshData();
+
+</script>
+
+</body>
+</html>
