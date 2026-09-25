@@ -762,54 +762,48 @@ document.getElementById('openMusic').onclick = () => {
 </div>
 
 <script>
+<script>
 const bgUpload = document.getElementById('bgUpload');
 const bgReset = document.getElementById('bgReset');
 
-function setBackground(url){
-  const bg='linear-gradient(rgba(5,8,20,.15),rgba(5,8,20,.15)),url("' + url + '")';
-
-  document.documentElement.style.setProperty('background-image',bg,'important');
-  document.body.style.setProperty('background-image',bg,'important');
-
-  document.documentElement.style.setProperty('background-size','cover','important');
-  document.body.style.setProperty('background-size','cover','important');
-
-  document.documentElement.style.setProperty('background-position','center','important');
-  document.body.style.setProperty('background-position','center','important');
-
-  document.documentElement.style.setProperty('background-repeat','no-repeat','important');
-  document.body.style.setProperty('background-repeat','no-repeat','important');
-
-  document.documentElement.style.setProperty('background-attachment','fixed','important');
-  document.body.style.setProperty('background-attachment','fixed','important');
+function setBackground(url) {
+  document.body.style.backgroundImage =
+    'linear-gradient(rgba(5,8,20,.15),rgba(5,8,20,.15)),url("' + url + '")';
+  document.body.style.backgroundSize = 'cover';
+  document.body.style.backgroundPosition = 'center';
+  document.body.style.backgroundRepeat = 'no-repeat';
+  document.body.style.backgroundAttachment = 'fixed';
 }
-  
-    
-
-  
-  
-
 
 const savedBg = localStorage.getItem('customGalleryBackground');
-if (savedBg) setBackground(savedBg);
-bgUpload.onclick = function () {
-    this.value = '';
-};
+
+if (savedBg) {
+  setBackground(savedBg);
+}
+
 bgUpload.addEventListener('change', function () {
   const file = this.files[0];
+
   if (!file) return;
-alert('选择成功：' + file.name);
+
   const reader = new FileReader();
+
   reader.onload = function (e) {
     const url = e.target.result;
-setBackground(url);
-try {
-    localStorage.setItem('customGalleryBackground', url);
-} catch (e) {}
-};
-    
-    
+
+    setBackground(url);
+
+    try {
+      localStorage.setItem('customGalleryBackground', url);
+    } catch (err) {
+      alert('背景图太大，无法保存，请换一张小一点的图片');
+    }
   };
+
+  reader.onerror = function () {
+    alert('背景图读取失败，请换一张图片');
+  };
+
   reader.readAsDataURL(file);
 });
 
