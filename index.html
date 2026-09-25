@@ -862,5 +862,103 @@ document.body.appendChild(bgMusicBtn);
   
 
 </script>
+<div id="bgControl" style="position:fixed;right:15px;bottom:70px;z-index:9999;">
+  <label style="display:inline-block;padding:10px 14px;background:#ffffffdd;color:#111;border-radius:10px;cursor:pointer;">
+    🖼️ 自定义背景
+    <input id="bgUpload" type="file" accept="image/*" style="display:none">
+  </label>
+
+  <button id="bgReset" style="margin-left:6px;padding:10px 14px;border:0;border-radius:10px;">
+    恢复默认
+  </button>
+</div>
+
+<script>
+(function(){
+
+  const bgUpload=document.getElementById('bgUpload');
+  const bgReset=document.getElementById('bgReset');
+
+  function applyBackground(url){
+    document.body.style.setProperty(
+      'background-image',
+      'url("' + url + '")',
+      'important'
+    );
+
+    document.body.style.setProperty(
+      'background-size',
+      'cover',
+      'important'
+    );
+
+    document.body.style.setProperty(
+      'background-position',
+      'center',
+      'important'
+    );
+
+    document.body.style.setProperty(
+      'background-repeat',
+      'no-repeat',
+      'important'
+    );
+
+    document.body.style.setProperty(
+      'background-attachment',
+      'fixed',
+      'important'
+    );
+  }
+
+  const saved=localStorage.getItem('customGalleryBackground');
+
+  if(saved){
+    applyBackground(saved);
+  }
+
+  bgUpload.addEventListener('change',function(){
+
+    const file=this.files[0];
+
+    if(!file)return;
+
+    const reader=new FileReader();
+
+    reader.onload=function(e){
+
+      const url=e.target.result;
+
+      applyBackground(url);
+
+      try{
+        localStorage.setItem(
+          'customGalleryBackground',
+          url
+        );
+      }catch(err){
+        alert('背景图片太大，请选择小一点的图片');
+      }
+
+    };
+
+    reader.readAsDataURL(file);
+
+  });
+
+  bgReset.addEventListener('click',function(){
+
+    localStorage.removeItem(
+      'customGalleryBackground'
+    );
+
+    document.body.style.removeProperty(
+      'background-image'
+    );
+
+  });
+
+})();
+</script>
 </body>
 </html>
