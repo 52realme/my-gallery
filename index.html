@@ -767,8 +767,35 @@ const bgUpload = document.getElementById('bgUpload');
 const bgReset = document.getElementById('bgReset');
 
 function setBackground(url) {
-  document.body.style.backgroundImage =
-    'linear-gradient(rgba(5,8,20,.15),rgba(5,8,20,.15)),url("' + url + '")';
+  document.body.style.setProperty(
+    'background-image',
+    'url("' + url + '")',
+    'important'
+  );
+
+  document.body.style.setProperty(
+    'background-size',
+    'cover',
+    'important'
+  );
+
+  document.body.style.setProperty(
+    'background-position',
+    'center',
+    'important'
+  );
+
+  document.body.style.setProperty(
+    'background-repeat',
+    'no-repeat',
+    'important'
+  );
+
+  document.body.style.setProperty(
+    'background-attachment',
+    'fixed',
+    'important'
+  );
   document.body.style.backgroundSize = 'cover';
   document.body.style.backgroundPosition = 'center';
   document.body.style.backgroundRepeat = 'no-repeat';
