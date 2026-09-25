@@ -694,7 +694,7 @@ if (savedBg) setBackground(savedBg);
 bgUpload.addEventListener('change', function () {
   const file = this.files[0];
   if (!file) return;
-
+alert('选择成功：' + file.name);
   const reader = new FileReader();
   reader.onload = function (e) {
     const url = e.target.result;
