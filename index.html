@@ -270,7 +270,10 @@ function render(){
     del.style.border='0';
     del.style.borderRadius='8px';
     del.style.cursor='pointer';
-
+del.style.position='absolute';
+del.style.right='10px';
+del.style.bottom='10px';
+del.style.zIndex='2';
     del.onclick=(event)=>{
       event.stopPropagation();
       if(confirm('确定要删除这张照片吗？')){
