@@ -246,7 +246,14 @@ const initial = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BS
 const grid=document.getElementById('galleryGrid'), empty=document.getElementById('empty');
 let photos=JSON.parse(localStorage.getItem('myGalleryPhotos')||'null')||[{src:initial,name:'我的图片'}];
 
-function save(){localStorage.setItem('myGalleryPhotos',JSON.stringify(photos));}
+function save(){
+  try{
+    localStorage.setItem('myGalleryPhotos',JSON.stringify(photos));
+  }catch(err){
+    alert('照片没有保存成功：' + err.name);
+    console.error(err);
+  }
+}
 function render(){
   grid.innerHTML='';
   empty.style.display=photos.length?'none':'block';
