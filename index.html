@@ -248,10 +248,16 @@ let photos=JSON.parse(localStorage.getItem('myGalleryPhotos')||'null')||[{src:in
 
 function save(){
   try{
-    localStorage.setItem('myGalleryPhotos',JSON.stringify(photos));
+    const data=JSON.stringify(photos);
+    localStorage.setItem('myGalleryPhotos',data);
+
+    if(localStorage.getItem('myGalleryPhotos')===data){
+      alert('保存成功');
+    }else{
+      alert('写入后马上读取不到');
+    }
   }catch(err){
-    alert('照片没有保存成功：' + err.name);
-    console.error(err);
+    alert('保存失败：'+err.name);
   }
 }
 function render(){
