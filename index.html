@@ -40,6 +40,7 @@ h2{margin:0;font-size:30px} .hint{color:var(--muted);font-size:13px}
 .close{position:absolute;right:20px;top:18px;border-radius:50%;width:44px;height:44px;padding:0;font-size:24px}
 @media(max-width:650px){nav a{display:none}.hero{min-height:72vh;padding-top:55px}h1{letter-spacing:-2px}.music{grid-template-columns:1fr}}
 @media(max-width:650px){#musicPlatform{width:100%}.music>div:first-child{grid-template-columns:1fr!important}.music>div:nth-child(2){grid-template-columns:1fr!important}.music iframe{height:360px}}
+
 </style>
 
 <style>
@@ -49,6 +50,95 @@ h2{margin:0;font-size:30px} .hint{color:var(--muted);font-size:13px}
   #musicUrl{min-width:0}
   #audioFiles{display:none}
 }
+/* ===== 官网玻璃风外观 ===== */
+
+body{
+  background-color:#070b14;
+  color:#f5f7ff;
+}
+
+header{
+  background:rgba(8,12,25,.72)!important;
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(130,150,255,.18)!important;
+  box-shadow:0 8px 30px rgba(0,0,0,.25);
+}
+
+.logo{
+  color:#fff!important;
+  text-shadow:0 0 18px rgba(100,130,255,.45);
+}
+
+nav a{
+  color:#b9c4ff!important;
+  transition:.25s;
+}
+
+nav a:hover{
+  color:#fff!important;
+}
+
+.hero,
+.item,
+.music,
+.musicPlatform,
+.modal>div{
+  background:rgba(18,24,43,.68)!important;
+  border:1px solid rgba(150,165,255,.16)!important;
+  box-shadow:0 12px 40px rgba(0,0,0,.28);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+}
+
+button,
+.file-label{
+  border-radius:13px!important;
+  transition:transform .2s,box-shadow .2s;
+}
+
+button:hover,
+.file-label:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 22px rgba(90,110,255,.25);
+}
+
+h1{
+  text-shadow:0 0 25px rgba(100,130,255,.3);
+}
+
+.section-title h2{
+  color:#fff;
+}
+
+.empty{
+  background:rgba(20,26,45,.5)!important;
+  border-color:rgba(150,165,255,.2)!important;
+}
+
+@media(max-width:650px){
+  header{
+    padding:12px 16px!important;
+  }
+
+  .logo{
+    font-size:18px!important;
+  }
+
+  nav{
+    gap:10px!important;
+  }
+
+  nav a{
+    font-size:13px!important;
+  }
+
+  .hero{
+    border-radius:20px!important;
+  }
+}
+
+/* ===== 外观修改结束 ===== */
 </style>
 </head>
 <body>
