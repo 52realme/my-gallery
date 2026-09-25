@@ -667,19 +667,16 @@ const bgUpload = document.getElementById('bgUpload');
 const bgReset = document.getElementById('bgReset');
 alert('背景功能已加载');
 function setBackground(url) {
-  const bg = `linear-gradient(rgba(5,8,20,.25),rgba(5,8,20,.25)),url("${url}")`;
+  document.body.style.setProperty(
+    'background-image',
+    `linear-gradient(rgba(5,8,20,.15),rgba(5,8,20,.15)), url("${url}")`,
+    'important'
+  );
 
-  document.documentElement.style.setProperty('background-image', bg, 'important');
-  document.body.style.setProperty('background-image', bg, 'important');
-
-  document.documentElement.style.backgroundSize = 'cover';
-  document.body.style.backgroundSize = 'cover';
-
-  document.documentElement.style.backgroundPosition = 'center';
-  document.body.style.backgroundPosition = 'center';
-
-  document.documentElement.style.backgroundAttachment = 'fixed';
-  document.body.style.backgroundAttachment = 'fixed';
+  document.body.style.setProperty('background-size', 'cover', 'important');
+  document.body.style.setProperty('background-position', 'center', 'important');
+  document.body.style.setProperty('background-repeat', 'no-repeat', 'important');
+  document.body.style.setProperty('background-attachment', 'fixed', 'important');
 }
   
     
