@@ -765,17 +765,23 @@ document.getElementById('openMusic').onclick = () => {
 const bgUpload = document.getElementById('bgUpload');
 const bgReset = document.getElementById('bgReset');
 
-function setBackground(url) {
-  document.body.style.setProperty(
-    'background-image',
-    `linear-gradient(rgba(5,8,20,.15),rgba(5,8,20,.15)), url("${url}")`,
-    'important'
-  );
+function setBackground(url){
+  const bg='linear-gradient(rgba(5,8,20,.15),rgba(5,8,20,.15)),url("' + url + '")';
 
-  document.body.style.setProperty('background-size', 'cover', 'important');
-  document.body.style.setProperty('background-position', 'center', 'important');
-  document.body.style.setProperty('background-repeat', 'no-repeat', 'important');
-  document.body.style.setProperty('background-attachment', 'fixed', 'important');
+  document.documentElement.style.setProperty('background-image',bg,'important');
+  document.body.style.setProperty('background-image',bg,'important');
+
+  document.documentElement.style.setProperty('background-size','cover','important');
+  document.body.style.setProperty('background-size','cover','important');
+
+  document.documentElement.style.setProperty('background-position','center','important');
+  document.body.style.setProperty('background-position','center','important');
+
+  document.documentElement.style.setProperty('background-repeat','no-repeat','important');
+  document.body.style.setProperty('background-repeat','no-repeat','important');
+
+  document.documentElement.style.setProperty('background-attachment','fixed','important');
+  document.body.style.setProperty('background-attachment','fixed','important');
 }
   
     
