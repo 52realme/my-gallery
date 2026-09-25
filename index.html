@@ -684,8 +684,13 @@ bgUpload.addEventListener('change', function () {
   const reader = new FileReader();
   reader.onload = function (e) {
     const url = e.target.result;
+setBackground(url);
+try {
     localStorage.setItem('customGalleryBackground', url);
-    setBackground(url);
+} catch (e) {}
+};
+    
+    
   };
   reader.readAsDataURL(file);
 });
