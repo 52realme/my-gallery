@@ -7,7 +7,7 @@
 <style>
 :root{--bg:#080b14;--card:rgba(255,255,255,.08);--line:rgba(255,255,255,.13);--text:#f5f7ff;--muted:#aab1c5;--accent:#8b9cff}
 *{box-sizing:border-box} html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg) url("rhythm_blue_bg.gif") center center / cover fixed no-repeat;color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC",sans-serif;overflow-x:hidden}
+body{margin:0;background:var(--bg) url("rhythm_blue_static.jpg") center center / cover fixed no-repeat;color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC",sans-serif;overflow-x:hidden}
 body:after{content:"";position:fixed;inset:0;pointer-events:none;background:rgba(0,8,24,.28);z-index:-1}body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:radial-gradient(#fff 1px,transparent 1px);background-size:45px 45px;opacity:.06;animation:drift 18s linear infinite}
 @keyframes drift{to{background-position:90px 90px}}
 header{position:sticky;top:0;z-index:10;backdrop-filter:blur(18px);background:#080b1499;border-bottom:1px solid var(--line)}
@@ -59,6 +59,24 @@ h2{margin:0;font-size:30px} .hint{color:var(--muted);font-size:13px}
 #myGallerySplash p{margin:0;opacity:.7}
 #pwaInstallBtn{position:fixed;right:16px;bottom:18px;z-index:9990;border:0;border-radius:999px;padding:12px 18px;background:#fff;color:#07142d;font-weight:800;box-shadow:0 8px 30px rgba(0,0,0,.3);display:none}
 </style>
+
+<style id="music-v3-style">
+.music-v3{display:grid;gap:16px}
+.music-card{border:1px solid var(--line);background:rgba(255,255,255,.06);border-radius:20px;padding:18px;display:grid;gap:14px}
+.platform-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.platform-btn{display:flex;align-items:center;justify-content:center;min-height:48px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.07);color:#fff;text-decoration:none;font-weight:700}
+.platform-btn:hover{background:rgba(255,255,255,.15);transform:translateY(-1px)}
+.music-input{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:#0005;color:#fff;font:inherit;outline:none}
+.small-note{color:var(--muted);font-size:12px;line-height:1.6}
+.login-row{display:flex;gap:10px;flex-wrap:wrap}
+.login-btn{border:1px solid var(--line);border-radius:12px;background:#ffffff10;color:#fff;padding:10px 14px;text-decoration:none}
+.wallpaper-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.wallpaper-row input[type=url]{flex:1;min-width:220px}
+#musicVisualizer{height:92px;border-radius:16px;background:rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;overflow:hidden}
+#visualizerCanvas{width:100%;height:100%}
+@media(max-width:700px){.platform-grid{grid-template-columns:1fr}.music-card{padding:15px}}
+</style>
+
 </head>
 <body>
 <div id="myGallerySplash"><div class="splash-inner"><img src="icon-192.svg" alt="My Gallery"><h1>My Gallery</h1><p>正在启动…</p></div></div>
@@ -83,21 +101,69 @@ h2{margin:0;font-size:30px} .hint{color:var(--muted);font-size:13px}
 <div id="empty" class="empty" style="display:none">还没有图片，点击上面的「上传图片」添加第一张。</div>
 </section>
 
+
 <section id="music">
-<div class="section-title"><div><h2>汽水音乐</h2><div class="hint">粘贴汽水音乐的歌曲分享链接，点击按钮即可打开播放</div></div></div>
-<div class="music">
-<div style="min-width:0">
-<strong>♫ 汽水音乐歌曲</strong>
-<div id="qishuiName" style="color:var(--muted);font-size:14px;margin-top:6px">还没有设置歌曲链接</div>
-<input id="qishuiUrl" type="url" placeholder="粘贴汽水音乐歌曲分享链接"
-style="width:100%;margin-top:12px;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:#0005;color:#fff;font:inherit;outline:none">
-</div>
-<div class="actions" style="margin:0">
-<button id="saveQishui">保存歌曲</button>
-<button id="openQishui">♫ 打开汽水音乐</button>
-</div>
+<div class="section-title"><div><h2>音乐中心</h2><div class="hint">第三方平台使用官方入口；本地音乐播放时动态背景才会跟随节奏。</div></div></div>
+<div class="music-v3">
+  <div class="music-card">
+    <strong>🎵 音乐平台</strong>
+    <div class="platform-grid">
+      <a class="platform-btn" href="https://www.kugou.com/" target="_blank" rel="noopener">酷狗音乐</a>
+      <a class="platform-btn" href="https://music.163.com/" target="_blank" rel="noopener">网易云音乐</a>
+      <a class="platform-btn" href="https://y.qq.com/" target="_blank" rel="noopener">QQ音乐</a>
+      <a class="platform-btn" href="https://music.douyin.com/" target="_blank" rel="noopener">汽水音乐</a>
+    </div>
+    <div class="small-note">登录/授权按钮会进入对应平台官方页面，不在本站收集第三方账号密码。</div>
+  </div>
+
+  <div class="music-card">
+    <strong>🔐 第三方音乐账号</strong>
+    <div class="login-row">
+      <a class="login-btn" href="https://www.kugou.com/" target="_blank" rel="noopener">登录酷狗</a>
+      <a class="login-btn" href="https://music.163.com/" target="_blank" rel="noopener">登录网易云</a>
+      <a class="login-btn" href="https://y.qq.com/" target="_blank" rel="noopener">登录QQ音乐</a>
+      <a class="login-btn" href="https://music.douyin.com/" target="_blank" rel="noopener">登录汽水音乐</a>
+    </div>
+    <div class="small-note">这些是官方入口。是否能在第三方网页内保持登录状态，由音乐平台自己的授权机制决定。</div>
+  </div>
+
+  <div class="music-card">
+    <strong>🎧 本地音乐播放器</strong>
+    <input id="localMusic" type="file" accept="audio/*">
+    <audio id="audioPlayer" controls preload="metadata" style="width:100%"></audio>
+    <div class="actions" style="margin:0">
+      <button id="playMusic" type="button">▶ 播放</button>
+      <button id="pauseMusic" type="button">⏸ 暂停</button>
+    </div>
+    <div id="musicStatus" class="small-note">没有播放音乐时，背景保持静态；播放时会启动节奏动画。</div>
+    <div id="musicVisualizer"><canvas id="visualizerCanvas"></canvas></div>
+  </div>
+
+  <div class="music-card">
+    <strong>🔗 音乐分享链接</strong>
+    <input id="musicShareUrl" class="music-input" type="url" placeholder="粘贴酷狗 / 网易云 / QQ / 汽水分享链接">
+    <button id="saveMusicShare" type="button">保存分享链接</button>
+    <div id="musicShareStatus" class="small-note">保存后可点击平台按钮前往官方页面。</div>
+  </div>
+
+  <div class="music-card">
+    <strong>🖼️ 自定义壁纸</strong>
+    <div class="wallpaper-row">
+      <input id="wallpaperInput" type="file" accept="image/*">
+      <button id="resetWallpaper" type="button">恢复默认</button>
+    </div>
+    <input id="wallpaperUrl" class="music-input" type="url" placeholder="也可以输入公开图片网址">
+    <button id="applyWallpaperUrl" type="button">使用这个壁纸</button>
+    <div class="small-note">上传壁纸保存在当前手机浏览器；公开图片网址可作为所有访问者看到的默认壁纸。</div>
+  </div>
+
+  <div class="music-card">
+    <strong>✨ 节奏背景</strong>
+    <div class="small-note">你提供的蓝色 GIF 已作为音乐节奏背景：播放本地音乐时显示动画，暂停/停止后恢复静态背景。</div>
+  </div>
 </div>
 </section>
+
 
 <footer>MY GALLERY · 用浏览器打开即可使用</footer>
 
@@ -129,37 +195,111 @@ document.getElementById('upload').onchange=e=>{
  });e.target.value='';
 };
 
-const qishuiUrl=document.getElementById('qishuiUrl');
-const qishuiName=document.getElementById('qishuiName');
-const savedQishui=localStorage.getItem('qishuiMusicUrl')||'';
-qishuiUrl.value=savedQishui;
-if(savedQishui) qishuiName.textContent='已保存汽水音乐链接';
 
-document.getElementById('saveQishui').onclick=()=>{
-  const url=qishuiUrl.value.trim();
-  if(!url){
-    qishuiName.textContent='请先粘贴汽水音乐歌曲分享链接';
-    return;
+const localMusic=document.getElementById('localMusic');
+const audio=document.getElementById('audioPlayer');
+const playBtn=document.getElementById('playMusic');
+const pauseBtn=document.getElementById('pauseMusic');
+const musicStatus=document.getElementById('musicStatus');
+const canvas=document.getElementById('visualizerCanvas');
+const ctx=canvas.getContext('2d');
+let audioCtx=null, analyser=null, sourceNode=null, raf=0;
+
+function setRhythm(on){
+  if(on){
+    document.body.style.backgroundImage='url("rhythm_blue_music.gif")';
+    musicStatus.textContent='正在播放：背景节奏动画已开启';
+  }else{
+    document.body.style.backgroundImage='url("rhythm_blue_static.jpg")';
+    musicStatus.textContent='没有播放音乐：背景保持静态';
   }
-  try{
-    const u=new URL(url);
-    if(!/douyin|douyinvod|snssdk|music/i.test(u.hostname+u.pathname+u.protocol)){
-      qishuiName.textContent='这个链接看起来不像汽水音乐链接，请检查后再试';
-      return;
+}
+function resizeCanvas(){
+  const r=canvas.getBoundingClientRect();
+  canvas.width=Math.max(1,Math.floor(r.width*devicePixelRatio));
+  canvas.height=Math.max(1,Math.floor(r.height*devicePixelRatio));
+}
+window.addEventListener('resize',resizeCanvas); resizeCanvas();
+
+function startVisualizer(){
+  if(!audioCtx){
+    audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+    analyser=audioCtx.createAnalyser();
+    analyser.fftSize=128;
+    sourceNode=audioCtx.createMediaElementSource(audio);
+    sourceNode.connect(analyser);
+    analyser.connect(audioCtx.destination);
+  }
+  if(audioCtx.state==='suspended') audioCtx.resume();
+  cancelAnimationFrame(raf);
+  const data=new Uint8Array(analyser.frequencyBinCount);
+  function draw(){
+    if(audio.paused){setRhythm(false);return;}
+    analyser.getByteFrequencyData(data);
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    const w=canvas.width/data.length;
+    for(let i=0;i<data.length;i++){
+      const h=data[i]/255*canvas.height*.9;
+      ctx.fillStyle='rgba(130,170,255,.85)';
+      ctx.fillRect(i*w,canvas.height-h,Math.max(2,w-1),h);
     }
-  }catch(e){
-    qishuiName.textContent='链接格式不正确，请重新粘贴';
-    return;
+    raf=requestAnimationFrame(draw);
   }
-  localStorage.setItem('qishuiMusicUrl',url);
-  qishuiName.textContent='歌曲链接已保存';
+  draw();
+}
+if(localMusic) localMusic.addEventListener('change',e=>{
+  const file=e.target.files&&e.target.files[0];
+  if(!file)return;
+  audio.src=URL.createObjectURL(file);
+  audio.load();
+  musicStatus.textContent='已载入：'+file.name;
+});
+if(playBtn) playBtn.onclick=async()=>{
+  if(!audio.src){musicStatus.textContent='请先选择一首本地音乐';return;}
+  try{await audio.play();startVisualizer();setRhythm(true);}catch(e){musicStatus.textContent='浏览器阻止了播放，请再点一次播放';}
+};
+if(pauseBtn) pauseBtn.onclick=()=>{audio.pause();setRhythm(false);cancelAnimationFrame(raf);};
+audio.addEventListener('play',()=>{setRhythm(true);startVisualizer();});
+audio.addEventListener('pause',()=>{setRhythm(false);cancelAnimationFrame(raf);});
+audio.addEventListener('ended',()=>{setRhythm(false);cancelAnimationFrame(raf);});
+
+const shareUrl=document.getElementById('musicShareUrl');
+const shareStatus=document.getElementById('musicShareStatus');
+const savedShare=localStorage.getItem('myGalleryMusicShare')||'';
+if(savedShare){shareUrl.value=savedShare;shareStatus.textContent='已保存分享链接';}
+document.getElementById('saveMusicShare').onclick=()=>{
+  const u=shareUrl.value.trim();
+  if(!u){shareStatus.textContent='请先粘贴音乐分享链接';return;}
+  try{new URL(u);}catch(e){shareStatus.textContent='链接格式不正确';return;}
+  localStorage.setItem('myGalleryMusicShare',u);
+  shareStatus.textContent='分享链接已保存';
 };
 
-document.getElementById('openQishui').onclick=()=>{
-  const url=qishuiUrl.value.trim()||localStorage.getItem('qishuiMusicUrl')||'https://music.douyin.com/';
-  window.open(url,'_blank','noopener');
+const wpFile=document.getElementById('wallpaperInput');
+const wpUrl=document.getElementById('wallpaperUrl');
+function applyWp(src,save=true){
+  document.body.style.backgroundImage='linear-gradient(rgba(2,7,20,.34),rgba(2,7,20,.55)),url("'+src.replace(/"/g,'%22')+'")';
+  document.body.style.backgroundSize='cover';
+  document.body.style.backgroundPosition='center';
+  document.body.style.backgroundAttachment='fixed';
+  if(save)localStorage.setItem('myGalleryWallpaper',src);
+}
+const savedWp=localStorage.getItem('myGalleryWallpaper');
+if(savedWp)applyWp(savedWp,false);
+wpFile.addEventListener('change',e=>{
+  const f=e.target.files&&e.target.files[0];if(!f)return;
+  const r=new FileReader();r.onload=()=>applyWp(r.result,true);r.readAsDataURL(f);
+});
+document.getElementById('applyWallpaperUrl').onclick=()=>{
+  const u=wpUrl.value.trim(); if(!u)return;
+  try{new URL(u);applyWp(u,true);}catch(e){}
+};
+document.getElementById('resetWallpaper').onclick=()=>{
+  localStorage.removeItem('myGalleryWallpaper');
+  document.body.style.backgroundImage='url("rhythm_blue_static.jpg")';
 };
 render();
+
 </script>
 
 <script id="my-gallery-pwa-script">
