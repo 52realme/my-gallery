@@ -550,5 +550,48 @@ renderPlaylist();
 updateTrackInfo();
 
 </script>
-</body>
+<!-- 自定义背景图片 -->
+<div id="bgControl" style="position:fixed;right:15px;bottom:15px;z-index:9999;">
+  <label style="display:inline-block;padding:10px 14px;background:#ffffffdd;color:#111;border-radius:10px;cursor:pointer;">
+    🖼️ 自定义背景
+    <input id="bgUpload" type="file" accept="image/*" style="display:none">
+  </label>
+  <button id="bgReset" style="margin-left:6px;padding:10px 14px;border:0;border-radius:10px;">
+    恢复默认
+  </button>
+</div>
+
+<script>
+const bgUpload = document.getElementById('bgUpload');
+const bgReset = document.getElementById('bgReset');
+
+function setBackground(url) {
+  document.body.style.backgroundImage =
+    `linear-gradient(rgba(5,8,20,.45),rgba(5,8,20,.45)),url("${url}")`;
+  document.body.style.backgroundSize = 'cover';
+  document.body.style.backgroundPosition = 'center';
+  document.body.style.backgroundAttachment = 'fixed';
+}
+
+const savedBg = localStorage.getItem('customGalleryBackground');
+if (savedBg) setBackground(savedBg);
+
+bgUpload.addEventListener('change', function () {
+  const file = this.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    const url = e.target.result;
+    localStorage.setItem('customGalleryBackground', url);
+    setBackground(url);
+  };
+  reader.readAsDataURL(file);
+});
+
+bgReset.addEventListener('click', function () {
+  localStorage.removeItem('customGalleryBackground');
+  document.body.style.backgroundImage = '';
+});
+</script></body>
 </html>
