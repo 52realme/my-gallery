@@ -297,22 +297,55 @@ document.getElementById('upload').onchange=e=>{
     const r=new FileReader();
 
     r.onload=ev=>{
-      photos.unshift({
-        src:ev.target.result,
-        name:file.name
-      });
+      const img=new Image();
 
-      render();
+      img.onload=()=>{
+        const maxSize=1600;
+        let w=img.width;
+        let h=img.height;
 
-      try{
-        save();
-      }catch(err){
-        alert('照片太大，暂时无法保存，请选择较小的照片');
-      }
+        if(w>maxSize || h>maxSize){
+          if(w>h){
+            h=Math.round(h*maxSize/w);
+            w=maxSize;
+          }else{
+            w=Math.round(w*maxSize/h);
+            h=maxSize;
+          }
+        }
+
+        const canvas=document.createElement('canvas');
+        canvas.width=w;
+        canvas.height=h;
+
+        const ctx=canvas.getContext('2d');
+        ctx.drawImage(img,0,0,w,h);
+
+        const compressed=canvas.toDataURL('image/jpeg',0.82);
+
+        photos.unshift({
+          src:compressed,
+          name:file.name
+        });
+
+        render();
+
+        try{
+          save();
+        }catch(err){
+          alert('照片保存失败，请删除一些旧照片后再试');
+        }
+      };
+
+      img.onerror=()=>{
+        alert('这张照片无法读取，请换一张照片试试');
+      };
+
+      img.src=ev.target.result;
     };
 
     r.onerror=()=>{
-      alert('照片读取失败，请换一张照片再试');
+      alert('照片读取失败，请换一张照片试试');
     };
 
     r.readAsDataURL(file);
