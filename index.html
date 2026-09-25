@@ -293,9 +293,30 @@ document.getElementById('close').onclick=()=>document.getElementById('modal').cl
 document.getElementById('modal').onclick=e=>{if(e.target.id==='modal')e.currentTarget.classList.remove('show')};
 
 document.getElementById('upload').onchange=e=>{
- [...e.target.files].forEach(file=>{
-  const r=new FileReader();r.onload=ev=>{photos.unshift({src:ev.target.result,name:file.name});save();render();};r.readAsDataURL(file);
- });e.target.value='';
+  [...e.target.files].forEach(file=>{
+    const r=new FileReader();
+
+    r.onload=ev=>{
+      photos.unshift({
+        src:ev.target.result,
+        name:file.name
+      });
+
+      render();
+
+      try{
+        save();
+      }catch(err){
+        alert('照片太大，暂时无法保存，请选择较小的照片');
+      }
+    };
+
+    r.onerror=()=>{
+      alert('照片读取失败，请换一张照片再试');
+    };
+
+    r.readAsDataURL(file);
+  });
 };
 
 
