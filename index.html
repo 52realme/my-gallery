@@ -694,5 +694,15 @@ bgReset.addEventListener('click', function () {
   localStorage.removeItem('customGalleryBackground');
   document.body.style.backgroundImage = '';
 });
-</script></body>
+</script>
+
+  <script>
+const bgMusic = document.getElementById('bgMusic');
+
+document.addEventListener('click', function startMusic() {
+  bgMusic.play().catch(() => {});
+  document.removeEventListener('click', startMusic);
+}, { once: true });
+</script>
+</body>
 </html>
