@@ -716,11 +716,25 @@ bgReset.addEventListener('click', function () {
 
   <script>
 const bgMusic = document.getElementById('bgMusic');
+const bgMusicBtn = document.createElement('button');
+bgMusicBtn.textContent = '🔊 背景音乐';
 
-document.addEventListener('click', function startMusic() {
-  bgMusic.play().catch(() => {});
-  document.removeEventListener('click', startMusic);
-}, { once: true });
+bgMusicBtn.onclick = function (event) {
+  event.stopPropagation();
+  if (bgMusic.paused) {
+    bgMusic.play().catch(() => {});
+    bgMusicBtn.textContent = '🔊 背景音乐';
+  } else {
+    bgMusic.pause();
+    bgMusicBtn.textContent = '🔇 背景音乐';
+  }
+};
+
+document.body.appendChild(bgMusicBtn);
+
+  
+  
+
 </script>
 </body>
 </html>
