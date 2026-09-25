@@ -139,6 +139,7 @@ h2{margin:0;font-size:30px} .hint{color:var(--muted);font-size:13px}
       <div style="display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:10px">
         <input id="musicName" type="text" placeholder="歌曲名称（可选）" style="padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:#0005;color:#fff;font:inherit;outline:none">
         <button id="saveMusic">⭐ 收藏链接</button>
+        <button id="openMusic">▶ 打开官方播放页</button>
       </div>
       <div id="musicStatus" style="color:var(--muted);font-size:13px;margin-top:10px">还没有收藏第三方歌曲</div>
       <div id="favorites" style="margin-top:12px;display:grid;gap:8px"></div>
@@ -549,7 +550,16 @@ renderFavorites();
 renderPlaylist();
 updateTrackInfo();
 
-</script>
+document.getElementById('openMusic').onclick = () => {
+  const url = document.getElementById('musicUrl').value.trim();
+
+  if (!url) {
+    alert('请先粘贴歌曲分享链接');
+    return;
+  }
+
+  window.open(url, '_blank');
+};</script>
 <!-- 自定义背景图片 -->
 <div id="bgControl" style="position:fixed;right:15px;bottom:15px;z-index:9999;">
   <label style="display:inline-block;padding:10px 14px;background:#ffffffdd;color:#111;border-radius:10px;cursor:pointer;">
