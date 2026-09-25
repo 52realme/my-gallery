@@ -248,14 +248,45 @@ let photos=JSON.parse(localStorage.getItem('myGalleryPhotos')||'null')||[{src:in
 
 function save(){localStorage.setItem('myGalleryPhotos',JSON.stringify(photos));}
 function render(){
- grid.innerHTML='';
- empty.style.display=photos.length?'none':'block';
- photos.forEach((p,i)=>{
-   const div=document.createElement('div');div.className='item';div.style.animationDelay=(i*45)+'ms';
-   const im=document.createElement('img');im.src=p.src;im.alt=p.name||'图片';div.appendChild(im);
-   const s=document.createElement('span');s.textContent=p.name||'图片';div.appendChild(s);
-   div.onclick=()=>openModal(p.src);grid.appendChild(div);
- });
+  grid.innerHTML='';
+  empty.style.display=photos.length?'none':'block';
+
+  photos.forEach((p,i)=>{
+    const div=document.createElement('div');
+    div.className='item';
+    div.style.animationDelay=(i*45)+'ms';
+
+    const img=document.createElement('img');
+    img.src=p.src;
+    img.alt=p.name||'图片';
+
+    const s=document.createElement('span');
+    s.textContent=p.name;
+
+    const del=document.createElement('button');
+    del.textContent='🗑️ 删除';
+    del.style.marginTop='8px';
+    del.style.padding='6px 10px';
+    del.style.border='0';
+    del.style.borderRadius='8px';
+    del.style.cursor='pointer';
+
+    del.onclick=(event)=>{
+      event.stopPropagation();
+      if(confirm('确定要删除这张照片吗？')){
+        photos.splice(i,1);
+        save();
+        render();
+      }
+    };
+
+    div.appendChild(img);
+    div.appendChild(s);
+    div.appendChild(del);
+
+    div.onclick=()=>openModal(p.src);
+    grid.appendChild(div);
+  });
 }
 function openModal(src){document.getElementById('modalImg').src=src;document.getElementById('modal').classList.add('show');}
 document.getElementById('close').onclick=()=>document.getElementById('modal').classList.remove('show');
