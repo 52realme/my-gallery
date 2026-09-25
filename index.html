@@ -848,7 +848,9 @@ bgMusicBtn.onclick = function (event) {
   }
 };
 
-document.getElementById('bgControl').appendChild(bgMusicBtn);
+document.addEventListener('DOMContentLoaded',function(){
+  document.getElementById('bgControl').appendChild(bgMusicBtn);
+});
 
   
   
