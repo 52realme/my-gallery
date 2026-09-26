@@ -1265,6 +1265,30 @@ box-shadow:0 8px 30px rgba(0,0,0,.18);
 `;
 
 animeLink.insertAdjacentElement('afterend', chipLink);
+  const celebrationLink = document.createElement('a');
+celebrationLink.href = 'celebration.html';
+celebrationLink.target = '_self';
+celebrationLink.textContent = '🎉 节日庆祝';
+
+celebrationLink.style.cssText = `
+display:block;
+margin:12px auto 0;
+padding:16px 24px;
+max-width:320px;
+text-align:center;
+text-decoration:none;
+color:#fff;
+font-size:18px;
+font-weight:700;
+border:1px solid rgba(255,255,255,.25);
+border-radius:18px;
+background:rgba(255,255,255,.12);
+backdrop-filter:blur(16px);
+-webkit-backdrop-filter:blur(16px);
+box-shadow:0 8px 30px rgba(0,0,0,.18);
+`;
+
+chipLink.insertAdjacentElement('afterend', celebrationLink);
 </script>
   <script>
 (function(){
