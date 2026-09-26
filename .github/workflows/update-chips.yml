@@ -33,20 +33,23 @@ jobs:
 
           now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
-          if "自动检测时间：" in text:
-              text = re.sub(
-                  r"自动检测时间：[^<]*",
-                  f"自动检测时间：{now}",
-                  text
-              )
-          else:
-              text = text.replace(
-                  '<div class="footer">',
-                  f'<div class="footer">自动检测时间：{now}<br><br>'
-              )
+          # 删除旧的自动检测时间
+          text = re.sub(
+              r'自动检测时间：[^<]*(?:<br\s*/?>)?(?:<br\s*/?>)?',
+              '',
+              text
+          )
+
+          # 在资料更新时间前加入新的自动检测时间
+          text = text.replace(
+              '资料更新时间：',
+              f'自动检测时间：{now}<br><br>资料更新时间：',
+              1
+          )
 
           file.write_text(text, encoding="utf-8")
-          print("芯片页面更新时间已刷新：", now)
+
+          print("自动检测时间已更新：", now)
           PY
 
       - name: 保存更新
@@ -54,5 +57,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add chips.html
-          git diff --cached --quiet || git commit -m "自动更新芯片数据"
+          git diff --cached --quiet || git commit -m "自动更新芯片检测时间"
           git push
