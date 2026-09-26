@@ -142,27 +142,273 @@ h1{
 </style>
 </head>
 <body>
-<audio id="bgMusic" src="video_20260925_193949.mp3" loop autoplay preload="auto"></audio>
-  <script>
+<audio id="bgMusic" preload="auto"></audio>
+
+<div id="bgMusicPanel" style="
+  margin:12px 0;
+  padding:12px;
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:16px;
+  background:rgba(20,20,30,.55);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  color:#fff;
+">
+  <div style="font-weight:700;margin-bottom:8px;">🎶 背景音乐</div>
+
+  <div id="musicTitle" style="font-size:13px;opacity:.8;margin-bottom:10px;">
+    正在准备音乐…
+  </div>
+
+  <div style="display:flex;gap:8px;flex-wrap:wrap;">
+    <button id="prevMusic">⏮️ 上一首</button>
+    <button id="playMusic">▶️ 播放</button>
+    <button id="nextMusic">⏭️ 下一首</button>
+    <button id="modeMusic">🔀 随机播放</button>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:8px;margin-top:10px;">
+    🔊
+    <input
+      id="musicVolume"
+      type="range"
+      min="0"
+      max="1"
+      step="0.01"
+      value="0.7"
+      style="flex:1;"
+    >
+  </div>
+</div>
+
+<script>
 (function(){
-  const music = document.getElementById('bgMusic');
-  if(!music) return;
 
-  const savedTime = sessionStorage.getItem('musicTime');
+  const musicList = [
+    {
+      name: "背景音乐 1",
+      src: "video_20260925_193949.mp3"
+    },
+    {
+      name: "背景音乐 2",
+      src: "video_20260926_124255.mp3"
+    },
+    {
+      name: "背景音乐 3",
+      src: "video_20260926_124459.mp3"
+    }
+  ];
 
-  if(savedTime){
-    music.currentTime = parseFloat(savedTime);
+  const music = document.getElementById("bgMusic");
+  const title = document.getElementById("musicTitle");
+  const playBtn = document.getElementById("playMusic");
+  const prevBtn = document.getElementById("prevMusic");
+  const nextBtn = document.getElementById("nextMusic");
+  const modeBtn = document.getElementById("modeMusic");
+  const volume = document.getElementById("musicVolume");
+
+  let currentIndex = parseInt(
+    localStorage.getItem("musicIndex") || "0",
+    10
+  );
+
+  let randomMode =
+    localStorage.getItem("musicMode") === "random";
+
+  if (
+    currentIndex < 0 ||
+    currentIndex >= musicList.length
+  ) {
+    currentIndex = 0;
   }
 
-  music.addEventListener('timeupdate', function(){
-    sessionStorage.setItem('musicTime', music.currentTime);
+  const savedVolume =
+    parseFloat(localStorage.getItem("musicVolume"));
+
+  if (!isNaN(savedVolume)) {
+    volume.value = savedVolume;
+  }
+
+  music.volume = parseFloat(volume.value);
+
+  function loadMusic(autoplay){
+    const song = musicList[currentIndex];
+
+    music.src = song.src;
+    title.textContent =
+      "🎵 " + song.name +
+      "  (" + (currentIndex + 1) +
+      "/" + musicList.length + ")";
+
+    localStorage.setItem(
+      "musicIndex",
+      currentIndex
+    );
+
+    const savedTime =
+      parseFloat(
+        localStorage.getItem("musicTime") || "0"
+      );
+
+    music.addEventListener(
+      "loadedmetadata",
+      function restore(){
+        if (
+          savedTime > 0 &&
+          savedTime < music.duration
+        ) {
+          music.currentTime = savedTime;
+        }
+
+        music.removeEventListener(
+          "loadedmetadata",
+          restore
+        );
+
+        if (autoplay) {
+          music.play().catch(function(){
+            playBtn.textContent = "▶️ 点击播放";
+          });
+        }
+      }
+    );
+
+    music.load();
+  }
+
+  function nextMusic(){
+    if(randomMode){
+      if(musicList.length > 1){
+        let next;
+        do {
+          next = Math.floor(
+            Math.random() * musicList.length
+          );
+        } while(next === currentIndex);
+
+        currentIndex = next;
+      }
+    }else{
+      currentIndex =
+        (currentIndex + 1) %
+        musicList.length;
+    }
+
+    localStorage.setItem("musicTime","0");
+    loadMusic(true);
+  }
+
+  function prevMusic(){
+    currentIndex =
+      (currentIndex - 1 +
+       musicList.length) %
+      musicList.length;
+
+    localStorage.setItem("musicTime","0");
+    loadMusic(true);
+  }
+
+  playBtn.addEventListener("click",function(){
+    if(music.paused){
+      music.play().then(function(){
+        playBtn.textContent = "⏸️ 暂停";
+      }).catch(function(){
+        playBtn.textContent = "▶️ 点击播放";
+      });
+    }else{
+      music.pause();
+      playBtn.textContent = "▶️ 播放";
+    }
   });
 
-  window.addEventListener('beforeunload', function(){
-    sessionStorage.setItem('musicTime', music.currentTime);
+  nextBtn.addEventListener(
+    "click",
+    nextMusic
+  );
+
+  prevBtn.addEventListener(
+    "click",
+    prevMusic
+  );
+
+  modeBtn.addEventListener("click",function(){
+
+    randomMode = !randomMode;
+
+    localStorage.setItem(
+      "musicMode",
+      randomMode ? "random" : "order"
+    );
+
+    modeBtn.textContent =
+      randomMode
+      ? "🔀 随机播放"
+      : "➡️ 顺序播放";
   });
+
+  volume.addEventListener("input",function(){
+
+    music.volume =
+      parseFloat(volume.value);
+
+    localStorage.setItem(
+      "musicVolume",
+      volume.value
+    );
+  });
+
+  music.addEventListener(
+    "ended",
+    nextMusic
+  );
+
+  music.addEventListener(
+    "timeupdate",
+    function(){
+
+      if(
+        music.currentTime > 0 &&
+        !isNaN(music.currentTime)
+      ){
+        localStorage.setItem(
+          "musicTime",
+          music.currentTime
+        );
+      }
+
+      localStorage.setItem(
+        "musicIndex",
+        currentIndex
+      );
+    }
+  );
+
+  window.addEventListener(
+    "beforeunload",
+    function(){
+
+      localStorage.setItem(
+        "musicTime",
+        music.currentTime
+      );
+
+      localStorage.setItem(
+        "musicIndex",
+        currentIndex
+      );
+    }
+  );
+
+  if(randomMode){
+    modeBtn.textContent = "🔀 随机播放";
+  }else{
+    modeBtn.textContent = "➡️ 顺序播放";
+  }
+
+  loadMusic(true);
+
 })();
-  </script>
+</script>
   <header><div class="nav"><div class="logo">✦ Oh my God!</div><nav><a href="#home">首页</a><a href="#gallery">相册</a><a href="#music">音乐</a></nav></div></header>
 
 <main id="home">
