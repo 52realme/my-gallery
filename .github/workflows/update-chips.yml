@@ -1,0 +1,50 @@
+name: 自动更新芯片数据
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 获取网站代码
+        uses: actions/checkout@v4
+
+      - name: 设置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: 自动更新
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from datetime import datetime, timezone
+
+          file = Path("chips.html")
+          text = file.read_text(encoding="utf-8")
+
+          now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+
+          text = text.replace(
+              '资料更新时间：',
+              f'资料更新时间：{now}'
+          )
+
+          file.write_text(text, encoding="utf-8")
+          print("自动检查时间已更新:", now)
+          PY
+
+      - name: 保存更新
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add chips.html
+          git diff --cached --quiet || git commit -m "自动更新芯片数据"
+          git push
