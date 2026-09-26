@@ -1271,8 +1271,8 @@ animeLink.insertAdjacentElement('afterend', chipLink);
   const music = document.getElementById('bgMusic');
   if(!music) return;
 
-  const savedSrc = sessionStorage.getItem('musicSrc');
-  const savedTime = parseFloat(sessionStorage.getItem('musicTime') || '0');
+  const savedSrc = localStorage.getItem('musicSrc');
+  const savedTime = parseFloat(localStorage.getItem('musicTime') || '0');
 
   if(savedSrc && music.src !== savedSrc){
     music.src = savedSrc;
@@ -1288,14 +1288,14 @@ animeLink.insertAdjacentElement('afterend', chipLink);
 
   setInterval(function(){
     if(!music.paused){
-      sessionStorage.setItem('musicTime', music.currentTime);
-      sessionStorage.setItem('musicSrc', music.src);
+      localStorage.setItem('musicTime', music.currentTime);
+      localStorage.setItem('musicSrc', music.src);
     }
   }, 500);
 
   window.addEventListener('beforeunload', function(){
-    sessionStorage.setItem('musicTime', music.currentTime);
-    sessionStorage.setItem('musicSrc', music.src);
+    localStorage.setItem('musicTime', music.currentTime);
+    localStorage.setItem('musicSrc', music.src);
   });
 })();
   </script>
