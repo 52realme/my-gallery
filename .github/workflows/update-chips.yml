@@ -21,7 +21,7 @@ jobs:
         with:
           python-version: "3.x"
 
-                - name: 自动获取官方芯片资料
+      - name: 自动获取官方芯片资料
         run: |
           python - <<'PY'
           from pathlib import Path
