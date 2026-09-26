@@ -1272,6 +1272,74 @@ function initPage(){
 
   else if(mode === "birthday"){
 
+  title.innerHTML =
+    "🎂 生日快乐！";
+
+  subtitle.innerHTML =
+    "🎉 愿你今天开心快乐！";
+
+
+  // 创建生日蛋糕
+  const cake =
+    document.createElement("div");
+
+  cake.className = "cake";
+
+  cake.innerHTML = "🎂";
+
+  cake.style.fontSize = "120px";
+
+  cake.style.marginBottom = "20px";
+
+  cake.style.display = "block";
+
+  let up = true;
+
+setInterval(function(){
+
+  cake.style.transform =
+    up
+      ? "translateY(-10px)"
+      : "translateY(0)";
+
+  up = !up;
+
+}, 1000);
+    
+
+
+  // 把蛋糕放到标题前面
+  center.insertBefore(
+    cake,
+    title
+  );
+
+
+  // 播放生日音乐
+  startBirthdayMusic();
+
+
+  // 彩带
+  setInterval(
+    createConfetti,
+    250
+  );
+
+
+  // 气球
+  setInterval(
+    createBalloon,
+    1200
+  );
+
+
+  // 一开始就出现一些彩带
+  for(let i = 0; i < 20; i++){
+    createConfetti();
+  }
+
+  }
+
     title.innerHTML =
       "🎂 今天是你的生日";
 
