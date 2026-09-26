@@ -503,25 +503,38 @@ document
 render();render();
 
 </script>
-<audio id="bgMusic" src="video_20260925_193949.mp3" loop autoplay preload="auto"></audio>
+<audio id="bgMusic" preload="auto"></audio>
+
 <script>
 (function(){
-  const music = document.getElementById('bgMusic');
-  const savedTime = sessionStorage.getItem('musicTime');
+  const music = document.getElementById("bgMusic");
 
-  if(savedTime){
-    music.currentTime = parseFloat(savedTime);
-  }
+  const savedSong =
+    sessionStorage.getItem("musicSong") ||
+    "video_20260925_193949.mp3";
 
-  music.addEventListener('timeupdate',function(){
-    sessionStorage.setItem('musicTime', music.currentTime);
+  const savedTime =
+    parseFloat(sessionStorage.getItem("musicTime") || "0");
+
+  music.src = savedSong;
+
+  music.addEventListener("loadedmetadata", function(){
+    if(savedTime > 0 && savedTime < music.duration){
+      music.currentTime = savedTime;
+    }
+
+    music.play().catch(function(){});
   });
 
-  window.addEventListener('beforeunload',function(){
-    sessionStorage.setItem('musicTime', music.currentTime);
+  music.addEventListener("timeupdate", function(){
+    sessionStorage.setItem("musicTime", music.currentTime);
+    sessionStorage.setItem("musicSong", music.src);
   });
 
-  music.play().catch(()=>{});
+  window.addEventListener("beforeunload", function(){
+    sessionStorage.setItem("musicTime", music.currentTime);
+    sessionStorage.setItem("musicSong", music.src);
+  });
 })();
 </script>
 </body>
