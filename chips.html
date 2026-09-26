@@ -9,225 +9,233 @@
 *{box-sizing:border-box}
 
 body{
-margin:0;
-font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-background:#070b14;
-color:#f5f7ff;
+  margin:0;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:#070b14;
+  color:#f5f7ff;
 }
 
 header{
-position:sticky;
-top:0;
-z-index:10;
-padding:18px 15px;
-background:#080c14ee;
-backdrop-filter:blur(16px);
-border-bottom:1px solid #ffffff18;
+  position:sticky;
+  top:0;
+  z-index:10;
+  padding:18px 15px;
+  background:#080c14ee;
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid #ffffff18;
 }
 
-.header,main{
-max-width:1000px;
-margin:auto;
+.header,
+main{
+  max-width:1000px;
+  margin:auto;
 }
 
 .back{
-color:#9db7ff;
-text-decoration:none;
+  color:#9db7ff;
+  text-decoration:none;
 }
 
 h1{
-margin:12px 0 5px;
-font-size:28px;
+  margin:12px 0 5px;
+  font-size:28px;
 }
 
 .sub{
-color:#9aa6bd;
-font-size:13px;
+  color:#9aa6bd;
+  font-size:13px;
 }
 
 main{
-padding:20px 14px 50px;
+  padding:20px 14px 50px;
 }
 
 .tools{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-margin-bottom:15px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:15px;
 }
 
-input,select,button{
-border:1px solid #ffffff18;
-border-radius:12px;
-background:#111827;
-color:white;
-padding:12px 14px;
-font-size:14px;
+input,
+select,
+button{
+  border:1px solid #ffffff18;
+  border-radius:12px;
+  background:#111827;
+  color:white;
+  padding:12px 14px;
+  font-size:14px;
 }
 
 input{
-flex:1;
-min-width:190px;
+  flex:1;
+  min-width:190px;
 }
 
 button{
-cursor:pointer;
+  cursor:pointer;
 }
 
 .card{
-background:#ffffff08;
-border:1px solid #ffffff15;
-border-radius:18px;
-padding:17px;
-margin-bottom:12px;
+  background:#ffffff08;
+  border:1px solid #ffffff15;
+  border-radius:18px;
+  padding:17px;
+  margin-bottom:12px;
 }
 
 .rank{
-display:flex;
-align-items:center;
-gap:13px;
+  display:flex;
+  align-items:center;
+  gap:13px;
 }
 
 .num{
-width:42px;
-height:42px;
-border-radius:12px;
-background:#ffffff0d;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:800;
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  background:#ffffff0d;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:800;
 }
 
 .info{
-flex:1;
+  flex:1;
 }
 
 .name{
-font-size:18px;
-font-weight:800;
+  font-size:18px;
+  font-weight:800;
 }
 
 .brand{
-font-size:13px;
-color:#9aa6bd;
-margin-top:4px;
+  font-size:13px;
+  color:#9aa6bd;
+  margin-top:4px;
 }
 
 .year{
-font-size:12px;
-color:#77839a;
-margin-top:3px;
+  font-size:12px;
+  color:#77839a;
+  margin-top:3px;
 }
 
 .details{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:8px;
-margin-top:15px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin-top:15px;
 }
 
 .detail{
-background:#00000022;
-border-radius:10px;
-padding:10px;
+  background:#00000022;
+  border-radius:10px;
+  padding:10px;
 }
 
 .detail span{
-display:block;
-font-size:11px;
-color:#7f8ba3;
+  display:block;
+  font-size:11px;
+  color:#7f8ba3;
 }
 
 .detail b{
-display:block;
-margin-top:4px;
-font-size:13px;
+  display:block;
+  margin-top:4px;
+  font-size:13px;
 }
 
 .source{
-margin-top:12px;
-font-size:11px;
-color:#738096;
+  margin-top:12px;
+  font-size:11px;
+  color:#738096;
 }
 
 .footer{
-text-align:center;
-font-size:12px;
-color:#6f7b91;
-margin-top:25px;
+  text-align:center;
+  font-size:12px;
+  color:#6f7b91;
+  margin-top:25px;
 }
 
 @media(max-width:650px){
-h1{font-size:24px}
-.details{grid-template-columns:repeat(2,1fr)}
-.name{font-size:16px}
+  h1{font-size:24px}
+  .details{grid-template-columns:repeat(2,1fr)}
+  .name{font-size:16px}
 }
+
 </style>
 </head><body>
 
 <header>
-<div class="header">
+  <div class="header">
 
-<a class="back" href="index.html">← 返回主页</a>
+    <a class="back" href="index.html">← 返回主页</a>
 
-<h1>📱 2026 手机芯片排行榜</h1>
+    <h1>📱 2026 手机芯片排行榜</h1>
 
-<div class="sub">
-2026 年旗舰 SoC 资料库 · 参数、制程、GPU 与数据来源
-</div>
+    <div class="sub">
+      2026 年旗舰 SoC 资料库 · 参数、制程、GPU 与数据来源
+    </div>
 
-</div>
+  </div>
 </header>
 
 <main>
 
-<div class="tools">
+  <div class="tools">
 
-<input
-id="search"
-placeholder="搜索 Snapdragon、天玑、Apple、麒麟……"
->
+    <input
+      id="search"
+      placeholder="搜索 Snapdragon、天玑、Apple、麒麟……"
+    >
 
-<select id="brand">
+    <select id="brand">
 
-<option value="全部">全部品牌</option>
+      <option value="全部">全部品牌</option>
 
-<option value="Qualcomm">Qualcomm</option>
+      <option value="Qualcomm">Qualcomm</option>
 
-<option value="MediaTek">MediaTek</option>
+      <option value="MediaTek">MediaTek</option>
 
-<option value="Apple">Apple</option>
+      <option value="Apple">Apple</option>
 
-<option value="Samsung">Samsung</option>
+      <option value="Samsung">Samsung</option>
 
-<option value="Huawei">Huawei</option>
+      <option value="Huawei">Huawei</option>
 
-<option value="Xiaomi">Xiaomi</option>
+      <option value="Xiaomi">Xiaomi</option>
 
-</select>
+    </select>
 
-<button onclick="render()">
-🔄 刷新
-</button>
+    <button onclick="render()">
+      🔄 刷新
+    </button>
 
-</div>
+  </div>
 
-<div id="status" class="sub"></div>
+  <div id="status" class="sub"></div>
 
-<div id="list"></div>
+  <div id="list"></div>
 
-<div class="footer">
+  <div class="footer">
 
-资料更新时间：
-<span id="time"></span>
+    资料更新时间：
+    <span id="time"></span>
 
-<br><br>
+    <br><br>
 
-部分芯片的第三方基准测试仍会随着设备、固件和测试版本变化。
-排行榜不代表任何厂商官方排名。
+    部分芯片的第三方基准测试会随着设备、
+    固件和测试版本变化。
 
-</div>
+    <br>
+
+    排行榜不代表任何厂商官方排名。
+
+  </div>
 
 </main>
 
@@ -235,240 +243,252 @@ placeholder="搜索 Snapdragon、天玑、Apple、麒麟……"
 
 const chips = [
 
-{
-name:"Snapdragon 8 Elite Extreme Gen 6",
-brand:"Qualcomm",
-year:"2026",
-process:"2nm",
-cpu:"Qualcomm Oryon",
-gpu:"Adreno",
-ai:"Hexagon NPU",
-source:"Qualcomm 官方",
-url:"https://www.qualcomm.com/news/releases/2026/09/snapdragon-leads-the-agentic-ai-age-with-two-of-the-world-s-fast"
-},
+  {
+    name:"Snapdragon 8 Elite Extreme Gen 6",
+    brand:"Qualcomm",
+    year:"2026",
+    process:"2nm",
+    cpu:"Qualcomm Oryon",
+    gpu:"Adreno",
+    ai:"Hexagon NPU",
+    source:"Qualcomm 官方"
+  },
 
-{
-name:"Snapdragon 8 Elite Gen 6",
-brand:"Qualcomm",
-year:"2026",
-process:"2nm",
-cpu:"Qualcomm Oryon",
-gpu:"Adreno",
-ai:"Hexagon NPU",
-source:"Qualcomm 官方",
-url:"https://www.qualcomm.com/news/releases/2026/09/snapdragon-leads-the-agentic-ai-age-with-two-of-the-world-s-fast"
-},
+  {
+    name:"Snapdragon 8 Elite Gen 6",
+    brand:"Qualcomm",
+    year:"2026",
+    process:"2nm",
+    cpu:"Qualcomm Oryon",
+    gpu:"Adreno",
+    ai:"Hexagon NPU",
+    source:"Qualcomm 官方"
+  },
 
-{
-name:"Dimensity 9600 Pro",
-brand:"MediaTek",
-year:"2026",
-process:"2nm",
-cpu:"8 核 CPU",
-gpu:"Mali-G2 Ultra NX",
-ai:"NPU 1090",
-source:"MediaTek 官方",
-url:"https://www.mediatek.com/press-room/mediatek-dimensity-9600-pro-sets-new-standard-for-flagship-smartphone-chips"
-},
+  {
+    name:"Dimensity 9600 Pro",
+    brand:"MediaTek",
+    year:"2026",
+    process:"2nm",
+    cpu:"旗舰级 CPU",
+    gpu:"Immortalis",
+    ai:"NPU",
+    source:"MediaTek 官方"
+  },
 
-{
-name:"Apple A20 Pro",
-brand:"Apple",
-year:"2026",
-process:"2nm",
-cpu:"6 核 CPU",
-gpu:"7 核 GPU",
-ai:"32 核 Neural Engine",
-source:"Apple 官方",
-url:"https://www.apple.com/newsroom/2026/09/apple-debuts-iphone-18-pro-and-iphone-18-pro-max/"
-},
+  {
+    name:"Apple A20 Pro",
+    brand:"Apple",
+    year:"2026",
+    process:"2nm",
+    cpu:"6 核 CPU",
+    gpu:"7 核 GPU",
+    ai:"32 核 Neural Engine",
+    source:"Apple 官方"
+  },
 
-{
-name:"Snapdragon 8 Elite Gen 5",
-brand:"Qualcomm",
-year:"2025",
-process:"3nm",
-cpu:"Oryon",
-gpu:"Adreno",
-ai:"Hexagon NPU",
-source:"公开资料"
-},
+  {
+    name:"Snapdragon 8 Elite Gen 5",
+    brand:"Qualcomm",
+    year:"2025",
+    process:"3nm",
+    cpu:"Qualcomm Oryon",
+    gpu:"Adreno",
+    ai:"Hexagon NPU",
+    source:"公开资料"
+  },
 
-{
-name:"Dimensity 9500",
-brand:"MediaTek",
-year:"2025",
-process:"3nm",
-cpu:"旗舰级",
-gpu:"Immortalis",
-ai:"NPU",
-source:"公开资料"
-},
+  {
+    name:"Dimensity 9500",
+    brand:"MediaTek",
+    year:"2025",
+    process:"3nm",
+    cpu:"旗舰级",
+    gpu:"Immortalis",
+    ai:"NPU",
+    source:"公开资料"
+  },
 
-{
-name:"Apple A19 Pro",
-brand:"Apple",
-year:"2025",
-process:"3nm",
-cpu:"6 核",
-gpu:"Apple GPU",
-ai:"Neural Engine",
-source:"公开资料"
-},
+  {
+    name:"Apple A19 Pro",
+    brand:"Apple",
+    year:"2025",
+    process:"3nm",
+    cpu:"6 核 CPU",
+    gpu:"Apple GPU",
+    ai:"Neural Engine",
+    source:"公开资料"
+  },
 
-{
-name:"Exynos 2600",
-brand:"Samsung",
-year:"2026",
-process:"2nm",
-cpu:"旗舰级",
-gpu:"Xclipse",
-ai:"NPU",
-source:"公开资料"
-},
+  {
+    name:"Exynos 2600",
+    brand:"Samsung",
+    year:"2026",
+    process:"2nm",
+    cpu:"旗舰级",
+    gpu:"Xclipse",
+    ai:"NPU",
+    source:"公开资料"
+  },
 
-{
-name:"Kirin 系列新款",
-brand:"Huawei",
-year:"2026",
-process:"待官方确认",
-cpu:"待确认",
-gpu:"待确认",
-ai:"待确认",
-source:"等待可靠公开资料"
-},
+  {
+    name:"Kirin 系列新款",
+    brand:"Huawei",
+    year:"2026",
+    process:"待官方确认",
+    cpu:"待确认",
+    gpu:"待确认",
+    ai:"待确认",
+    source:"等待可靠公开资料"
+  },
 
-{
-name:"XRING 03",
-brand:"Xiaomi",
-year:"2026",
-process:"公开资料持续更新",
-cpu:"待完整确认",
-gpu:"待完整确认",
-ai:"待完整确认",
-source:"公开报道"
-}
+  {
+    name:"XRING 03",
+    brand:"Xiaomi",
+    year:"2026",
+    process:"待完整确认",
+    cpu:"待完整确认",
+    gpu:"待完整确认",
+    ai:"待完整确认",
+    source:"公开报道"
+  }
 
 ];function render(){
 
-const search =
-document.getElementById("search")
-.value
-.toLowerCase()
-.trim();
+  const search =
+    document.getElementById("search")
+    .value
+    .toLowerCase()
+    .trim();
 
-const brand =
-document.getElementById("brand")
-.value;
+  const brand =
+    document.getElementById("brand")
+    .value;
 
-const result = chips.filter(chip=>{
+  const result = chips.filter(chip => {
 
-const matchBrand =
-brand==="全部" ||
-chip.brand===brand;
+    const matchBrand =
+      brand === "全部" ||
+      chip.brand === brand;
 
-const matchSearch =
-chip.name.toLowerCase().includes(search) ||
-chip.brand.toLowerCase().includes(search);
+    const matchSearch =
+      chip.name
+        .toLowerCase()
+        .includes(search) ||
 
-return matchBrand && matchSearch;
+      chip.brand
+        .toLowerCase()
+        .includes(search);
 
-});
+    return matchBrand && matchSearch;
 
-const list =
-document.getElementById("list");
+  });
 
-if(result.length===0){
+  const list =
+    document.getElementById("list");
 
-list.innerHTML=`
-<div class="card" style="text-align:center;padding:40px">
-没有找到相关芯片
-</div>
-`;
+  if(result.length === 0){
 
-return;
+    list.innerHTML = `
+      <div class="card"
+           style="text-align:center;padding:40px">
+
+        没有找到相关芯片
+
+      </div>
+    `;
+
+    document.getElementById("status").textContent =
+      "没有找到匹配的芯片";
+
+    return;
+  }
+
+  list.innerHTML = result.map((chip,index) => `
+
+    <div class="card">
+
+      <div class="rank">
+
+        <div class="num">
+          ${index + 1}
+        </div>
+
+        <div class="info">
+
+          <div class="name">
+            ${chip.name}
+          </div>
+
+          <div class="brand">
+            ${chip.brand}
+          </div>
+
+          <div class="year">
+            发布时间：${chip.year}
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="details">
+
+        <div class="detail">
+          <span>制程</span>
+          <b>${chip.process}</b>
+        </div>
+
+        <div class="detail">
+          <span>CPU</span>
+          <b>${chip.cpu}</b>
+        </div>
+
+        <div class="detail">
+          <span>GPU</span>
+          <b>${chip.gpu}</b>
+        </div>
+
+        <div class="detail">
+          <span>AI</span>
+          <b>${chip.ai}</b>
+        </div>
+
+      </div>
+
+      <div class="source">
+        数据来源：${chip.source}
+      </div>
+
+    </div>
+
+  `).join("");
+
+  document.getElementById("status").textContent =
+    `当前显示 ${result.length} 款芯片`;
 
 }
 
-list.innerHTML=result.map((chip,index)=>`
-
-<div class="card">
-
-<div class="rank">
-
-<div class="num">
-${index+1}
-</div>
-
-<div class="info">
-
-<div class="name">
-${chip.name}
-</div>
-
-<div class="brand">
-${chip.brand}
-</div>
-
-<div class="year">
-发布时间：${chip.year}
-</div>
-
-</div>
-
-</div>
-
-<div class="details">
-
-<div class="detail">
-<span>制程</span>
-<b>${chip.process}</b>
-</div>
-
-<div class="detail">
-<span>CPU</span>
-<b>${chip.cpu}</b>
-</div>
-
-<div class="detail">
-<span>GPU</span>
-<b>${chip.gpu}</b>
-</div>
-
-<div class="detail">
-<span>AI</span>
-<b>${chip.ai}</b>
-</div>
-
-</div>
-
-<div class="source">
-数据来源：${chip.source}
-</div>
-
-</div>
-
-`).join("");
-
-document.getElementById("status").textContent=
-`当前显示 ${result.length} 款芯片`;
-
-}
 
 document
-.getElementById("search")
-.addEventListener("input",render);
+  .getElementById("search")
+  .addEventListener("input", render);
+
 
 document
-.getElementById("brand")
-.addEventListener("change",render);
+  .getElementById("brand")
+  .addEventListener("change", render);
 
-document.getElementById("time")
-.textContent=
-new Date().toLocaleString("zh-CN");
 
-render();
+document
+  .getElementById("time")
+  .textContent =
+    new Date().toLocaleString("zh-CN");
+
+
+render();render();
 
 </script>
+
 </body>
 </html>
