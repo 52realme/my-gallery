@@ -133,7 +133,7 @@ jobs:
 
           print("新增芯片:", len(new_items))
           print("自动检测时间:", now)
-          PY 
+          PY
       - name: 保存更新
         run: |
           git config user.name "github-actions[bot]"
