@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>🎉 节日庆祝</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  width:100%;
+  min-height:100%;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  overflow:hidden;
+}
+
+body{
+  background:
+    radial-gradient(circle at 50% 20%,#30384f,#11131d 70%);
+  color:white;
+}
+
+#app{
+  position:relative;
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+}
+
+/* 背景 */
+.bg{
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 20% 20%,rgba(255,100,100,.18),transparent 30%),
+    radial-gradient(circle at 80% 30%,rgba(255,220,100,.15),transparent 30%);
+}
+
+/* 顶部 */
+.top{
+  position:absolute;
+  top:18px;
+  left:16px;
+  right:16px;
+  z-index:20;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:12px 16px;
+
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:22px;
+
+  background:rgba(25,28,40,.65);
+  backdrop-filter:blur(18px);
+}
+
+.top button{
+  border:0;
+  border-radius:15px;
+  padding:10px 14px;
+  background:rgba(255,255,255,.1);
+  color:white;
+  font-size:15px;
+}
+
+/* 中央 */
+.center{
+  position:absolute;
+  inset:0;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  flex-direction:column;
+
+  z-index:10;
+  pointer-events:none;
+
+  text-align:center;
+}
+
+.title{
+  font-size:clamp(32px,9vw,70px);
+  font-weight:900;
+  text-shadow:
+    0 4px 20px rgba(0,0,0,.5);
+}
+
+.subtitle{
+  margin-top:10px;
+  font-size:18px;
+  opacity:.9;
+}
+
+.mainBtn{
+  pointer-events:auto;
+
+  margin-top:25px;
+
+  border:1px solid rgba(255,255,255,.3);
+  border-radius:22px;
+
+  padding:16px 30px;
+
+  color:white;
+  background:rgba(255,255,255,.12);
+
+  backdrop-filter:blur(15px);
+
+  font-size:18px;
+  font-weight:bold;
+}
+
+/* 春节红包 */
+.redPacket{
+  position:absolute;
+  top:-80px;
+
+  font-size:35px;
+
+  animation:
+    fall linear forwards;
+}
+
+@keyframes fall{
+  to{
+    transform:
+      translateY(110vh)
+      rotate(360deg);
+  }
+}
+
+/* 气球 */
+.balloon{
+  position:absolute;
+  bottom:-120px;
+
+  font-size:55px;
+
+  animation:
+    balloonUp linear forwards;
+}
+
+@keyframes balloonUp{
+  to{
+    transform:
+      translateY(-120vh)
+      rotate(12deg);
+  }
+}
+
+/* 彩带 */
+.confetti{
+  position:absolute;
+  top:-30px;
+
+  width:9px;
+  height:20px;
+
+  animation:
+    confettiFall linear forwards;
+}
+
+@keyframes confettiFall{
+  to{
+    transform:
+      translateY(110vh)
+      rotate(720deg);
+  }
+}
+
+/* 蛋糕 */
+.cake{
+  font-size:110px;
+
+  animation:
+    cakeIn .8s ease-out,
+    cakeFloat 2s ease-in-out infinite;
+}
+
+@keyframes cakeIn{
+  from{
+    transform:scale(0);
+  }
+
+  to{
+    transform:scale(1);
+  }
+}
+
+@keyframes cakeFloat{
+  50%{
+    transform:translateY(-10px);
+  }
+}
+
+/* 烟花 */
+.firework{
+  position:absolute;
+
+  width:8px;
+  height:8px;
+
+  border-radius:50%;
+
+  animation:
+    firework 1s ease-out forwards;
+}
+
+@keyframes firework{
+  0%{
+    box-shadow:0 0 0 0 rgba(255,255,255,1);
+    transform:scale(.2);
+  }
+
+  100%{
+    transform:scale(1);
+
+    box-shadow:
+      0 -100px 0 2px #fff,
+      70px -70px 0 2px #fff,
+      100px 0 0 2px #fff,
+      70px 70px 0 2px #fff,
+      0 100px 0 2px #fff,
+      -70px 70px 0 2px #fff,
+      -100px 0 0 2px #fff,
+      -70px -70px 0 2px #fff;
+  }
+}
+
+/* 生日设置 */
+.panel{
+  pointer-events:auto;
+
+  margin-top:20px;
+
+  padding:20px;
+
+  width:min(90vw,400px);
+
+  border-radius:25px;
+
+  background:rgba(20,23,35,.72);
+
+  backdrop-filter:blur(20px);
+
+  border:1px solid rgba(255,255,255,.18);
+}
+
+.panel input{
+  width:100%;
+
+  margin:8px 0;
+
+  padding:14px;
+
+  border:0;
+  border-radius:15px;
+
+  background:rgba(255,255,255,.12);
+
+  color:white;
+
+  font-size:17px;
+}
+
+.panel button{
+  width:100%;
+
+  margin-top:10px;
+
+  padding:14px;
+
+  border:0;
+  border-radius:15px;
+
+  background:rgba(255,255,255,.15);
+
+  color:white;
+
+  font-size:17px;
+}
+
+/* 提示 */
+.tip{
+  position:absolute;
+
+  bottom:20px;
+  left:50%;
+
+  transform:translateX(-50%);
+
+  z-index:30;
+
+  width:90%;
+
+  text-align:center;
+
+  opacity:.8;
+
+  font-size:13px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="app">
+
+  <div class="bg"></div>
+
+  <div class="top">
+
+    <button onclick="goHome()">
+      ← 返回主页
+    </button>
+
+    <strong>🎉 节日庆祝</strong>
+
+    <button onclick="toggleSound()" id="soundBtn">
+      🔊 声音
+    </button>
+
+  </div>
+
+  <div class="center" id="center">
+
+    <div class="title" id="title">
+      🎉 节日庆祝
+    </div>
+
+    <div class="subtitle" id="subtitle">
+      正在检测今天是什么节日……
+    </div>
+
+    <button
+      class="mainBtn"
+      id="startBtn"
+      onclick="startCelebration()">
+      🎉 开始庆祝
+    </button>
+
+  </div>
+
+  <div class="tip">
+    🔊 手机浏览器需要点击一次“开始庆祝”才能可靠播放声音
+  </div>
+
+</div>
+
+<script>
+
+/* =========================
+   基础状态
+========================= */
+
+let soundEnabled = true;
+let audioCtx = null;
+
+let mode = "normal";
+
+const center =
+  document.getElementById("center");
+
+const title =
+  document.getElementById("title");
+
+const subtitle =
+  document.getElementById("subtitle");
+
+const startBtn =
+  document.getElementById("startBtn");
+
+const soundBtn =
+  document.getElementById("soundBtn");
+
+
+/* =========================
+   日期判断
+========================= */
+
+function getMode(){
+
+  const now = new Date();
+
+  const month =
+    now.getMonth() + 1;
+
+  const day =
+    now.getDate();
+
+  const year =
+    now.getFullYear();
+
+
+  /*
+    春节日期表
+
+    这里按照春节假期范围判断。
+    后面需要时可以继续增加年份。
+  */
+
+  const springFestival = {
+
+    2026:{
+      start:"2026-02-17",
+      end:"2026-03-03"
+    },
+
+    2027:{
+      start:"2027-02-06",
+      end:"2027-02-20"
+    },
+
+    2028:{
+      start:"2028-01-26",
+      end:"2028-02-09"
+    },
+
+    2029:{
+      start:"2029-02-13",
+      end:"2029-02-27"
+    },
+
+    2030:{
+      start:"2030-02-03",
+      end:"2030-02-17"
+    }
+
+  };
+
+
+  if(springFestival[year]){
+
+    const start =
+      new Date(
+        springFestival[year].start
+      );
+
+    const end =
+      new Date(
+        springFestival[year].end
+      );
+
+    if(
+      now >= start &&
+      now <= end
+    ){
+      return "spring";
+    }
+  }
+
+
+  /* 生日 */
+
+  const birthday =
+    localStorage.getItem(
+      "myBirthday"
+    );
+
+  if(birthday){
+
+    const parts =
+      birthday.split("-");
+
+    const birthMonth =
+      Number(parts[0]);
+
+    const birthDay =
+      Number(parts[1]);
+
+    if(
+      month === birthMonth &&
+      day === birthDay
+    ){
+      return "birthday";
+    }
+  }
+
+
+  return "normal";
+}
+
+
+/* =========================
+   Web Audio
+========================= */
+
+function initAudio(){
+
+  if(!audioCtx){
+
+    audioCtx =
+      new (
+        window.AudioContext ||
+        window.webkitAudioContext
+      )();
+
+  }
+
+  if(audioCtx.state === "suspended"){
+
+    audioCtx.resume();
+
+  }
+
+}
+
+
+/* =========================
+   烟花声音
+========================= */
+
+function fireworkSound(){
+
+  if(
+    !soundEnabled ||
+    !audioCtx
+  ){
+    return;
+  }
+
+
+  const osc =
+    audioCtx.createOscillator();
+
+  const gain =
+    audioCtx.createGain();
+
+
+  osc.type = "sawtooth";
+
+  osc.frequency.setValueAtTime(
+    180,
+    audioCtx.currentTime
+  );
+
+  osc.frequency.exponentialRampToValueAtTime(
+    40,
+    audioCtx.currentTime + .45
+  );
+
+
+  gain.gain.setValueAtTime(
+    .0001,
+    audioCtx.currentTime
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    .35,
+    audioCtx.currentTime + .03
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    .0001,
+    audioCtx.currentTime + .5
+  );
+
+
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+
+  osc.start();
+  osc.stop(
+    audioCtx.currentTime + .55
+  );
+
+}
+
+
+/* =========================
+   爆竹声音
+========================= */
+
+function firecrackerSound(){
+
+  if(
+    !soundEnabled ||
+    !audioCtx
+  ){
+    return;
+  }
+
+
+  const count =
+    4 +
+    Math.floor(
+      Math.random() * 5
+    );
+
+
+  for(
+    let i = 0;
+    i < count;
+    i++
+  ){
+
+    setTimeout(
+      () => {
+
+        const osc =
+          audioCtx.createOscillator();
+
+        const gain =
+          audioCtx.createGain();
+
+
+        osc.type = "square";
+
+        osc.frequency.value =
+          100 +
+          Math.random() * 80;
+
+
+        gain.gain.setValueAtTime(
+          .0001,
+          audioCtx.currentTime
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+          .4,
+          audioCtx.currentTime + .01
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+          .0001,
+          audioCtx.currentTime + .08
+        );
+
+
+        osc.connect(gain);
+        gain.connect(
+          audioCtx.destination
+        );
+
+
+        osc.start();
+
+        osc.stop(
+          audioCtx.currentTime + .1
+        );
+
+      },
+      i * 100
+    );
+
+  }
+
+}
+
+
+/* =========================
+   生日音乐
+========================= */
+
+const birthdayMelody = [
+
+  264,264,297,264,
+  352,330,
+
+  264,264,297,264,
+  396,352,
+
+  264,264,528,440,
+  352,330,297,
+
+  466,466,440,352,
+  396,352
+
+];
+
+
+let birthdayIndex = 0;
+
+
+function playBirthdayNote(){
+
+  if(
+    !soundEnabled ||
+    !audioCtx
+  ){
+    return;
+  }
+
+
+  const freq =
+    birthdayMelody[
+      birthdayIndex %
+      birthdayMelody.length
+    ];
+
+  birthdayIndex++;
+
+
+  const osc =
+    audioCtx.createOscillator();
+
+  const gain =
+    audioCtx.createGain();
+
+
+  osc.type = "sine";
+
+  osc.frequency.value =
+    freq;
+
+
+  gain.gain.setValueAtTime(
+    .0001,
+    audioCtx.currentTime
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    .25,
+    audioCtx.currentTime + .03
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    .0001,
+    audioCtx.currentTime + .45
+  );
+
+
+  osc.connect(gain);
+
+  gain.connect(
+    audioCtx.destination
+  );
+
+
+  osc.start();
+
+  osc.stop(
+    audioCtx.currentTime + .5
+  );
+
+}
+
+
+let birthdayTimer = null;
+
+
+function startBirthdayMusic(){
+
+  clearInterval(
+    birthdayTimer
+  );
+
+  playBirthdayNote();
+
+  birthdayTimer =
+    setInterval(
+      playBirthdayNote,
+      500
+    );
+
+}
+
+
+/* =========================
+   烟花
+========================= */
+
+function createFirework(){
+
+  const fw =
+    document.createElement(
+      "div"
+    );
+
+  fw.className =
+    "firework";
+
+
+  fw.style.left =
+    (10 + Math.random()*80) +
+    "%";
+
+  fw.style.top =
+    (15 + Math.random()*45) +
+    "%";
+
+
+  fw.style.filter =
+    `hue-rotate(${Math.random()*360}deg)`;
+
+
+  document
+    .getElementById("app")
+    .appendChild(fw);
+
+
+  fireworkSound();
+
+
+  setTimeout(
+    () => fw.remove(),
+    1100
+  );
+
+}
+
+
+/* =========================
+   爆竹
+========================= */
+
+function createFirecracker(){
+
+  const cracker =
+    document.createElement(
+      "div"
+    );
+
+  cracker.innerHTML =
+    "🧨";
+
+  cracker.style.position =
+    "absolute";
+
+  cracker.style.left =
+    (Math.random()*85) +
+    "%";
+
+  cracker.style.top =
+    (30 + Math.random()*50) +
+    "%";
+
+  cracker.style.fontSize =
+    "42px";
+
+  cracker.style.zIndex =
+    "5";
+
+
+  document
+    .getElementById("app")
+    .appendChild(cracker);
+
+
+  firecrackerSound();
+
+
+  setTimeout(
+    () => cracker.remove(),
+    1500
+  );
+
+}
+
+
+/* =========================
+   红包
+========================= */
+
+function createRedPacket(){
+
+  const item =
+    document.createElement(
+      "div"
+    );
+
+  item.className =
+    "redPacket";
+
+  item.innerHTML =
+    Math.random() > .5
+      ? "🧧"
+      : "🏮";
+
+
+  item.style.left =
+    Math.random()*95 +
+    "%";
+
+
+  item.style.animationDuration =
+    (4 + Math.random()*4) +
+    "s";
+
+
+  document
+    .getElementById("app")
+    .appendChild(item);
+
+
+  setTimeout(
+    () => item.remove(),
+    9000
+  );
+
+}
+
+
+/* =========================
+   彩带
+========================= */
+
+function createConfetti(){
+
+  const item =
+    document.createElement(
+      "div"
+    );
+
+  item.className =
+    "confetti";
+
+
+  item.style.left =
+    Math.random()*100 +
+    "%";
+
+
+  item.style.animationDuration =
+    (3 + Math.random()*4) +
+    "s";
+
+
+  item.style.background =
+    [
+      "#ff4d6d",
+      "#ffd166",
+      "#06d6a0",
+      "#4cc9f0",
+      "#ffffff"
+    ][
+      Math.floor(
+        Math.random()*5
+      )
+    ];
+
+
+  document
+    .getElementById("app")
+    .appendChild(item);
+
+
+  setTimeout(
+    () => item.remove(),
+    8000
+  );
+
+}
+
+
+/* =========================
+   气球
+========================= */
+
+function createBalloon(){
+
+  const item =
+    document.createElement(
+      "div"
+    );
+
+  item.className =
+    "balloon";
+
+  item.innerHTML =
+    ["🎈","🎈","🎈"][
+      Math.floor(
+        Math.random()*3
+      )
+    ];
+
+
+  item.style.left =
+    Math.random()*90 +
+    "%";
+
+
+  item.style.animationDuration =
+    (6 + Math.random()*5) +
+    "s";
+
+
+  document
+    .getElementById("app")
+    .appendChild(item);
+
+
+  setTimeout(
+    () => item.remove(),
+    12000
+  );
+
+}
+
+
+/* =========================
+   开始庆祝
+========================= */
+
+function startCelebration(){
+
+  initAudio();
+
+
+  mode =
+    getMode();
+
+
+  startBtn.style.display =
+    "none";
+
+
+  if(mode === "spring"){
+
+    title.innerHTML =
+      "🧨 新春快乐！";
+
+    subtitle.innerHTML =
+      "🎆 烟花 · 爆竹 · 新春庆典";
+
+
+    /* 烟花 */
+
+    setInterval(
+      () => {
+
+        createFirework();
+
+      },
+      1000
+    );
+
+
+    /* 爆竹 */
+
+    setInterval(
+      () => {
+
+        createFirecracker();
+
+      },
+      2800
+    );
+
+
+    /* 红包 */
+
+    setInterval(
+      () => {
+
+        createRedPacket();
+
+      },
+      900
+    );
+
+
+    /* 第一次立即播放 */
+
+    createFirework();
+
+    createFirecracker();
+
+  }
+
+
+  else if(mode === "birthday"){
+
+    title.innerHTML =
+      "🎂 生日快乐！";
+
+    subtitle.innerHTML =
+      "🎉 愿你今天开心快乐！";
+
+
+    const cake =
+      document.createElement(
+        "div"
+      );
+
+    cake.className =
+      "cake";
+
+    cake.innerHTML =
+      "🎂";
+
+
+    center.insertBefore(
+      cake,
+      title
+    );
+
+
+    startBirthdayMusic();
+
+
+    setInterval(
+      createConfetti,
+      250
+    );
+
+
+    setInterval(
+      createBalloon,
+      1200
+    );
+
+
+    for(
+      let i=0;
+      i<20;
+      i++
+    ){
+      createConfetti();
+    }
+
+  }
+
+
+  else{
+
+    title.innerHTML =
+      "🎉 庆祝开始！";
+
+    subtitle.innerHTML =
+      "✨ 欢迎来到节日庆祝页面";
+
+
+    setInterval(
+      createConfetti,
+      300
+    );
+
+  }
+
+}
+
+
+/* =========================
+   声音
+========================= */
+
+function toggleSound(){
+
+  soundEnabled =
+    !soundEnabled;
+
+
+  soundBtn.innerHTML =
+    soundEnabled
+      ? "🔊 声音"
+      : "🔇 静音";
+
+
+  if(
+    soundEnabled &&
+    audioCtx
+  ){
+
+    audioCtx.resume();
+
+  }
+
+}
+
+
+/* =========================
+   设置生日
+========================= */
+
+function setBirthday(){
+
+  const month =
+    prompt(
+      "请输入你的生日月份，例如：8"
+    );
+
+  const day =
+    prompt(
+      "请输入你的生日日期，例如：15"
+    );
+
+
+  if(
+    !month ||
+    !day
+  ){
+    return;
+  }
+
+
+  const m =
+    Number(month);
+
+  const d =
+    Number(day);
+
+
+  if(
+    m < 1 ||
+    m > 12 ||
+    d < 1 ||
+    d > 31
+  ){
+
+    alert(
+      "生日日期格式不正确"
+    );
+
+    return;
+
+  }
+
+
+  localStorage.setItem(
+    "myBirthday",
+    m + "-" + d
+  );
+
+
+  alert(
+    "🎂 生日已经保存！"
+  );
+
+
+  location.reload();
+
+}
+
+
+/* =========================
+   首页
+========================= */
+
+function goHome(){
+
+  location.href =
+    "index.html";
+
+}
+
+
+/* =========================
+   页面启动
+========================= */
+
+function initPage(){
+
+  mode =
+    getMode();
+
+
+  if(mode === "spring"){
+
+    title.innerHTML =
+      "🧨 新春快乐";
+
+    subtitle.innerHTML =
+      "🎆 春节庆祝活动已经准备好了";
+
+  }
+
+  else if(mode === "birthday"){
+
+    title.innerHTML =
+      "🎂 今天是你的生日";
+
+    subtitle.innerHTML =
+      "🎉 点击开始庆祝生日";
+
+  }
+
+  else{
+
+    title.innerHTML =
+      "🎉 节日庆祝";
+
+    subtitle.innerHTML =
+      "选择你的庆祝方式";
+
+  }
+
+
+  /* 添加生日设置按钮 */
+
+  const birthdayBtn =
+    document.createElement(
+      "button"
+    );
+
+  birthdayBtn.className =
+    "mainBtn";
+
+  birthdayBtn.innerHTML =
+    "🎂 设置我的生日";
+
+  birthdayBtn.onclick =
+    setBirthday;
+
+
+  center.appendChild(
+    birthdayBtn
+  );
+
+}
+
+
+initPage();
+
+</script>
+
+</body>
+</html>
