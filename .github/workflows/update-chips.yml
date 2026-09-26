@@ -21,7 +21,7 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: 自动发现官方芯片
+      - name: 自动检测官方芯片资料
         run: |
           python - <<'PY'
           from pathlib import Path
@@ -30,6 +30,9 @@ jobs:
           import re
           import json
 
+          file = Path("chips.html")
+          text = file.read_text(encoding="utf-8")
+
           sources = [
               {
                   "brand": "Qualcomm",
@@ -37,47 +40,58 @@ jobs:
               },
               {
                   "brand": "MediaTek",
-                  "url": "https://www.mediatek.com/press-room/archive/2026"
+                  "url": "https://www.mediatek.com/news-events/press-releases"
               },
               {
                   "brand": "Apple",
-                  "url": "https://www.apple.com/newsroom/archive/"
+                  "url": "https://www.apple.com/newsroom/"
               }
           ]
 
           found = []
 
-          patterns = {
-              "Qualcomm": r"Snapdragon\s+[A-Za-z0-9][A-Za-z0-9 .-]{2,60}",
-              "MediaTek": r"Dimensity\s+[A-Za-z0-9][A-Za-z0-9 .-]{2,60}",
-              "Apple": r"\bA\d{2}(?:\s+Pro)?\b"
-          }
-
           for source in sources:
               try:
-                  req = urllib.request.Request(
+                  request = urllib.request.Request(
                       source["url"],
-                      headers={"User-Agent": "Mozilla/5.0"}
+                      headers={
+                          "User-Agent": "Mozilla/5.0"
+                      }
                   )
 
                   with urllib.request.urlopen(
-                      req,
+                      request,
                       timeout=30
                   ) as response:
-                      html = response.read(
-                          500000
-                      ).decode(
+
+                      html = response.read().decode(
                           "utf-8",
                           errors="ignore"
                       )
 
-                  names = re.findall(
-                      patterns[source["brand"]],
-                      html,
-                      flags=re.IGNORECASE
-                  )
+                  if source["brand"] == "Qualcomm":
+                      patterns = [
+                          r"Snapdragon\s+[A-Za-z0-9][A-Za-z0-9 .-]{2,60}"
+                      ]
 
-                  cleaned = []
+                  elif source["brand"] == "MediaTek":
+                      patterns = [
+                          r"Dimensity\s+[A-Za-z0-9][A-Za-z0-9 .-]{2,60}"
+                      ]
+
+                  else:
+                      patterns = [
+                          r"\bA\d{1,2}\s*(?:Pro|Max|Ultra)?\b"
+                      ]
+
+                  names = []
+
+                  for pattern in patterns:
+                      names += re.findall(
+                          pattern,
+                          html,
+                          flags=re.IGNORECASE
+                      )
 
                   for name in names:
                       name = re.sub(
@@ -86,29 +100,44 @@ jobs:
                           name
                       ).strip()
 
-                      if name not in cleaned:
-                          cleaned.append(name)
+                      if name not in names:
+                          continue
 
-                  for name in cleaned:
-                      found.append({
-                          "name": name,
-                          "brand": source["brand"],
-                          "source": source["url"]
-                      })
+                      if len(name) > 70:
+                          continue
+
+                      if name not in [
+                          item["name"]
+                          for item in found
+                      ]:
+                          found.append({
+                              "name": name,
+                              "brand": source["brand"],
+                              "year": str(datetime.now().year),
+                              "process": "待官方确认",
+                              "cpu": "待官方确认",
+                              "gpu": "待官方确认",
+                              "ai": "待官方确认",
+                              "source": source["url"]
+                          })
 
                   print(
                       source["brand"],
-                      "检查成功，发现",
-                      len(cleaned),
-                      "个名称"
+                      "检测完成"
                   )
 
-              except Exception as e:
+              except Exception as error:
                   print(
                       source["brand"],
-                      "检查失败:",
-                      e
+                      "检测失败：",
+                      error
                   )
+
+          print(
+              "本次共发现",
+              len(found),
+              "条官方芯片相关名称"
+          )
 
           now = datetime.now(
               timezone.utc
@@ -116,41 +145,45 @@ jobs:
               "%Y-%m-%d %H:%M UTC"
           )
 
-          output = {
-              "updated": now,
-              "items": found
-          }
+          text = re.sub(
+              r'资料更新时间：\s*<span id="time"></span>',
+              f'资料更新时间：<span id="time"></span>',
+              text
+          )
 
-          Path(
-              "chip-updates.json"
-          ).write_text(
+          marker = "自动检测时间："
+
+          if marker in text:
+              text = re.sub(
+                  r'自动检测时间：[^<]*',
+                  f'自动检测时间：{now}',
+                  text
+              )
+
+          file.write_text(
+              text,
+              encoding="utf-8"
+          )
+
+          Path("detected-chips.json").write_text(
               json.dumps(
-                  output,
+                  found,
                   ensure_ascii=False,
                   indent=2
               ),
               encoding="utf-8"
           )
 
-          print(
-              "共发现",
-              len(found),
-              "条官方芯片资料"
-          )
-          print(
-              "更新时间:",
-              now
-          )
           PY
 
-      - name: 保存自动发现结果
+      - name: 保存检测结果
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add chip-updates.json
+          git add chips.html detected-chips.json
 
           git diff --cached --quiet || \
-          git commit -m "自动更新官方芯片资料"
+            git commit -m "自动更新芯片检测结果"
 
           git push
