@@ -21,30 +21,90 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: 自动更新
+      - name: 自动检查官方芯片资料
         run: |
           python - <<'PY'
           from pathlib import Path
           from datetime import datetime, timezone
+          import urllib.request
+
+          sources = [
+              (
+                  "Qualcomm",
+                  "https://www.qualcomm.com/news/releases"
+              ),
+              (
+                  "MediaTek",
+                  "https://www.mediatek.com/news/press-releases-id"
+              ),
+              (
+                  "Apple",
+                  "https://www.apple.com/newsroom/archive/"
+              )
+          ]
+
+          results = []
+
+          for brand, url in sources:
+              try:
+                  req = urllib.request.Request(
+                      url,
+                      headers={"User-Agent": "Mozilla/5.0"}
+                  )
+
+                  with urllib.request.urlopen(req, timeout=20) as response:
+                      data = response.read(200000).decode(
+                          "utf-8",
+                          errors="ignore"
+                      )
+
+                  results.append(
+                      f"{brand} 官方资料页面检查成功"
+                  )
+
+              except Exception as e:
+                  results.append(
+                      f"{brand} 检查失败: {e}"
+                  )
 
           file = Path("chips.html")
           text = file.read_text(encoding="utf-8")
 
-          now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-
-          text = text.replace(
-              '资料更新时间：',
-              f'资料更新时间：{now}'
+          now = datetime.now(timezone.utc).strftime(
+              "%Y-%m-%d %H:%M UTC"
           )
 
+          marker = "资料更新时间："
+
+          if marker in text:
+              start = text.index(marker)
+              end = text.find("<", start)
+
+              if end != -1:
+                  old = text[start:end]
+                  text = text.replace(
+                      old,
+                      f"{marker}{now}"
+                  )
+
           file.write_text(text, encoding="utf-8")
-          print("自动检查时间已更新:", now)
+
+          print("===== 官方资料检查结果 =====")
+
+          for result in results:
+              print(result)
+
+          print("检查时间:", now)
           PY
 
       - name: 保存更新
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           git add chips.html
-          git diff --cached --quiet || git commit -m "自动更新芯片数据"
+
+          git diff --cached --quiet || \
+          git commit -m "自动检查官方芯片资料"
+
           git push
