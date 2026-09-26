@@ -287,7 +287,17 @@ h1{
     localStorage.setItem("musicTime","0");
     loadMusic(true);
   }
+setInterval(function(){
+  if(!music.paused){
+    localStorage.setItem("musicTime", music.currentTime);
+    localStorage.setItem("musicSong", music.src);
+  }
+}, 500);
 
+window.addEventListener("beforeunload", function(){
+  localStorage.setItem("musicTime", music.currentTime);
+  localStorage.setItem("musicSong", music.src);
+});
   playBtn.addEventListener("click",function(){
     if(music.paused){
       music.play().then(function(){
