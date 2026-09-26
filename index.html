@@ -167,18 +167,7 @@ h1{
     <button id="modeMusic">🔀 随机播放</button>
   </div>
 
-  <div style="display:flex;align-items:center;gap:8px;margin-top:10px;">
-    🔊
-    <input
-      id="musicVolume"
-      type="range"
-      min="0"
-      max="1"
-      step="0.01"
-      value="0.7"
-      style="flex:1;"
-    >
-  </div>
+
 </div>
 
 <script>
@@ -205,7 +194,6 @@ h1{
   const prevBtn = document.getElementById("prevMusic");
   const nextBtn = document.getElementById("nextMusic");
   const modeBtn = document.getElementById("modeMusic");
-  const volume = document.getElementById("musicVolume");
 
   let currentIndex = parseInt(
     localStorage.getItem("musicIndex") || "0",
@@ -222,15 +210,7 @@ h1{
     currentIndex = 0;
   }
 
-  const savedVolume =
-    parseFloat(localStorage.getItem("musicVolume"));
-
-  if (!isNaN(savedVolume)) {
-    volume.value = savedVolume;
-  }
-
-  music.volume = parseFloat(volume.value);
-
+  
   function loadMusic(autoplay){
     const song = musicList[currentIndex];
 
@@ -346,16 +326,7 @@ h1{
       : "➡️ 顺序播放";
   });
 
-  volume.addEventListener("input",function(){
-
-    music.volume =
-      parseFloat(volume.value);
-
-    localStorage.setItem(
-      "musicVolume",
-      volume.value
-    );
-  });
+  
 
   music.addEventListener(
     "ended",
