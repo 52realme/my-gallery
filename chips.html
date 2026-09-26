@@ -381,7 +381,23 @@ const chips = [
     return matchBrand && matchSearch;
 
   });
+result.sort((a, b) => {
+    const score = chip => {
+        let s = 0;
 
+        if (chip.process === "2nm") s += 40;
+        else if (chip.process === "3nm") s += 30;
+        else if (chip.process === "4nm") s += 20;
+
+        if (chip.cpu && /旗舰|Oryon|Apple|高性能/i.test(chip.cpu)) s += 25;
+        if (chip.gpu && /Adreno|Immortalis|Apple|旗舰/i.test(chip.gpu)) s += 20;
+        if (chip.ai && /NPU|Neural|Hexagon/i.test(chip.ai)) s += 15;
+
+        return s;
+    };
+
+    return score(b) - score(a);
+});
   const list =
     document.getElementById("list");
 
