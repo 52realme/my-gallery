@@ -21,37 +21,119 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: 更新检测时间
+                - name: 自动获取官方芯片资料
         run: |
           python - <<'PY'
           from pathlib import Path
           from datetime import datetime, timezone
+          import urllib.request
           import re
+          import json
 
           file = Path("chips.html")
           text = file.read_text(encoding="utf-8")
 
-          now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+          sources = [
+              ("Qualcomm", "Qualcomm 官方",
+               "https://www.qualcomm.com/news/releases"),
+              ("MediaTek", "MediaTek 官方",
+               "https://www.mediatek.com/news-events/press-releases"),
+              ("Apple", "Apple 官方",
+               "https://www.apple.com/newsroom/")
+          ]
 
-          # 删除旧的自动检测时间
-          text = re.sub(
-              r'自动检测时间：[^<]*(?:<br\s*/?>)?(?:<br\s*/?>)?',
-              '',
-              text
+          found = []
+
+          for brand, source, url in sources:
+              try:
+                  req = urllib.request.Request(
+                      url,
+                      headers={"User-Agent": "Mozilla/5.0"}
+                  )
+
+                  with urllib.request.urlopen(req, timeout=30) as r:
+                      html = r.read().decode("utf-8", errors="ignore")
+
+                  if brand == "Qualcomm":
+                      names = re.findall(
+                          r"Snapdragon\s+[A-Za-z0-9]+(?:\s+[A-Za-z0-9-]+){0,6}",
+                          html
+                      )
+
+                  elif brand == "MediaTek":
+                      names = re.findall(
+                          r"Dimensity\s+[0-9A-Za-z]+(?:\s+[A-Za-z0-9-]+){0,4}",
+                          html
+                      )
+
+                  else:
+                      names = re.findall(
+                          r"\bA[0-9]{2}(?:\s+Pro)?\b",
+                          html
+                      )
+
+                  for name in names:
+                      name = " ".join(name.split())
+
+                      if name not in [x["name"] for x in found]:
+                          found.append({
+                              "name": name,
+                              "brand": brand,
+                              "year": str(datetime.now().year),
+                              "process": "待官方确认",
+                              "cpu": "待官方确认",
+                              "gpu": "待官方确认",
+                              "ai": "待官方确认",
+                              "source": source
+                          })
+
+              except Exception as e:
+                  print("获取失败:", brand, e)
+
+          print("发现:", found)
+
+          start = text.find("const chips = [")
+          end = text.find("];", start)
+
+          if start == -1 or end == -1:
+              raise SystemExit("找不到 chips 数据区域")
+
+          old_data = text[start:end + 2]
+
+          existing_names = set(
+              re.findall(r'name:"([^"]+)"', old_data)
           )
 
-          # 在资料更新时间前加入新的自动检测时间
-          text = text.replace(
-              '资料更新时间：',
-              f'自动检测时间：{now}<br><br>资料更新时间：',
-              1
+          new_items = [
+              item for item in found
+              if item["name"] not in existing_names
+          ]
+
+          if new_items:
+              insert = ",\n" + ",\n".join(
+                  "  " + json.dumps(item, ensure_ascii=False)
+                  for item in new_items
+              )
+
+              new_data = old_data[:-2] + insert + "\n];"
+              text = text[:start] + new_data + text[end + 2:]
+
+          now = datetime.now(timezone.utc).strftime(
+              "%Y-%m-%d %H:%M UTC"
+          )
+
+          text = re.sub(
+              r"自动检测时间：.*?<br>",
+              f"自动检测时间：{now}<br>",
+              text,
+              count=1
           )
 
           file.write_text(text, encoding="utf-8")
 
-          print("自动检测时间已更新：", now)
-          PY
-
+          print("新增芯片:", len(new_items))
+          print("自动检测时间:", now)
+          PY 
       - name: 保存更新
         run: |
           git config user.name "github-actions[bot]"
