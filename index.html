@@ -1256,5 +1256,38 @@ box-shadow:0 8px 30px rgba(0,0,0,.18);
 
 animeLink.insertAdjacentElement('afterend', chipLink);
 </script>
+  <script>
+(function(){
+  const music = document.getElementById('bgMusic');
+  if(!music) return;
+
+  const savedSrc = sessionStorage.getItem('musicSrc');
+  const savedTime = parseFloat(sessionStorage.getItem('musicTime') || '0');
+
+  if(savedSrc && music.src !== savedSrc){
+    music.src = savedSrc;
+  }
+
+  music.addEventListener('loadedmetadata', function(){
+    if(savedTime > 0 && savedTime < music.duration){
+      music.currentTime = savedTime;
+    }
+
+    music.play().catch(()=>{});
+  }, {once:true});
+
+  setInterval(function(){
+    if(!music.paused){
+      sessionStorage.setItem('musicTime', music.currentTime);
+      sessionStorage.setItem('musicSrc', music.src);
+    }
+  }, 500);
+
+  window.addEventListener('beforeunload', function(){
+    sessionStorage.setItem('musicTime', music.currentTime);
+    sessionStorage.setItem('musicSrc', music.src);
+  });
+})();
+  </script>
 </body>
 </html>
