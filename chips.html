@@ -503,6 +503,26 @@ document
 render();render();
 
 </script>
+<audio id="bgMusic" src="video_20260925_193949.mp3" loop autoplay preload="auto"></audio>
+<script>
+(function(){
+  const music = document.getElementById('bgMusic');
+  const savedTime = sessionStorage.getItem('musicTime');
 
+  if(savedTime){
+    music.currentTime = parseFloat(savedTime);
+  }
+
+  music.addEventListener('timeupdate',function(){
+    sessionStorage.setItem('musicTime', music.currentTime);
+  });
+
+  window.addEventListener('beforeunload',function(){
+    sessionStorage.setItem('musicTime', music.currentTime);
+  });
+
+  music.play().catch(()=>{});
+})();
+</script>
 </body>
 </html>
