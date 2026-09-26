@@ -507,34 +507,58 @@ render();render();
 
 <script>
 (function(){
-  const music = document.getElementById("bgMusic");
+  const music = document.getElementById('bgMusic');
+  if(!music) return;
 
-  const savedSong =
-    sessionStorage.getItem("musicSong") ||
-    "video_20260925_193949.mp3";
+  const savedSong = sessionStorage.getItem('musicSong');
+  const savedTime = parseFloat(
+    sessionStorage.getItem('musicTime') || '0'
+  );
 
-  const savedTime =
-    parseFloat(sessionStorage.getItem("musicTime") || "0");
+  if(savedSong){
+    music.src = savedSong;
+  }
 
-  music.src = savedSong;
+  music.addEventListener('loadedmetadata', function(){
 
-  music.addEventListener("loadedmetadata", function(){
     if(savedTime > 0 && savedTime < music.duration){
       music.currentTime = savedTime;
     }
 
     music.play().catch(function(){});
+
+  }, {once:true});
+
+  setInterval(function(){
+
+    if(!music.paused){
+      sessionStorage.setItem(
+        'musicTime',
+        music.currentTime
+      );
+
+      sessionStorage.setItem(
+        'musicSong',
+        music.src
+      );
+    }
+
+  }, 500);
+
+  window.addEventListener('beforeunload', function(){
+
+    sessionStorage.setItem(
+      'musicTime',
+      music.currentTime
+    );
+
+    sessionStorage.setItem(
+      'musicSong',
+      music.src
+    );
+
   });
 
-  music.addEventListener("timeupdate", function(){
-    sessionStorage.setItem("musicTime", music.currentTime);
-    sessionStorage.setItem("musicSong", music.src);
-  });
-
-  window.addEventListener("beforeunload", function(){
-    sessionStorage.setItem("musicTime", music.currentTime);
-    sessionStorage.setItem("musicSong", music.src);
-  });
 })();
 </script>
 </body>
