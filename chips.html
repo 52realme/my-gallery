@@ -510,9 +510,9 @@ render();render();
   const music = document.getElementById('bgMusic');
   if(!music) return;
 
-  const savedSong = sessionStorage.getItem('musicSong');
+  const savedSong = localStorage.getItem('musicSong');
   const savedTime = parseFloat(
-    sessionStorage.getItem('musicTime') || '0'
+    localStorage.getItem('musicTime') || '0'
   );
 
   if(savedSong){
@@ -532,12 +532,12 @@ render();render();
   setInterval(function(){
 
     if(!music.paused){
-      sessionStorage.setItem(
+      localStorage.setItem(
         'musicTime',
         music.currentTime
       );
 
-      sessionStorage.setItem(
+      localStorage.setItem(
         'musicSong',
         music.src
       );
@@ -547,12 +547,12 @@ render();render();
 
   window.addEventListener('beforeunload', function(){
 
-    sessionStorage.setItem(
+    localStorage.setItem(
       'musicTime',
       music.currentTime
     );
 
-    sessionStorage.setItem(
+    localStorage.setItem(
       'musicSong',
       music.src
     );
