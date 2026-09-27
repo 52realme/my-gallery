@@ -342,13 +342,18 @@ body{
     </div>
 
     <div class="subtitle" id="subtitle">
-      正在检测今天是什么节日……
+      请输入节日名称
     </div>
-
+<input
+  id="festivalInput"
+  type="text"
+  placeholder="请输入节日，例如：春节"
+  style="width:80%;max-width:360px;padding:14px 18px;margin:20px auto;border-radius:16px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.12);color:white;font-size:16px;text-align:center;outline:none;display:block;"
+>
     <button
       class="mainBtn"
       id="startBtn"
-      onclick="startCelebration()">
+      onclick="manualCelebration()">
       🎉 开始庆祝
     </button>
 
