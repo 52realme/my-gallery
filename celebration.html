@@ -497,18 +497,21 @@ function getMode(){
 
   return "normal";
 }
-// 自动检测并开始庆祝
-window.addEventListener("load", function(){
-    const mode = getMode();
+function manualCelebration(){
 
-    if(mode !== "normal"){
-        startCelebration();
-    }else{
-        title.textContent = "🎉 节日庆祝";
-        subtitle.textContent = "今天没有检测到特殊节日";
+    const input = document.getElementById("festivalInput");
+    const festival = input.value.trim();
+
+    if(!festival){
+        subtitle.textContent = "⚠️ 请先输入节日名称";
+        return;
     }
-});
 
+    title.textContent = "🎉 " + festival;
+    subtitle.textContent = "正在庆祝：" + festival;
+
+    startCelebration();
+}
 /* =========================
    Web Audio
 ========================= */
