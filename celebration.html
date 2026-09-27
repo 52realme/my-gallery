@@ -492,7 +492,17 @@ function getMode(){
 
   return "normal";
 }
+// 自动检测并开始庆祝
+window.addEventListener("load", function(){
+    const mode = getMode();
 
+    if(mode !== "normal"){
+        startCelebration();
+    }else{
+        title.textContent = "🎉 节日庆祝";
+        subtitle.textContent = "今天没有检测到特殊节日";
+    }
+});
 
 /* =========================
    Web Audio
