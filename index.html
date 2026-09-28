@@ -1275,12 +1275,12 @@ const softwareBox = document.createElement('div');
 softwareBox.style.cssText = `
 position:fixed;
 right:18px;
-bottom:360px;
+bottom:320px;
 z-index:99999;
 display:flex;
 flex-direction:column;
 gap:10px;
-width:180px;
+width:120px;
 `;
 
 function makeSoftwareButton(text, clickFunction){
@@ -1313,9 +1313,9 @@ cursor:pointer;
   return btn;
 }
 
-// ① 指定软件下载
+// ① 下载
 const downloadSoftware = makeSoftwareButton(
-  '📦 指定软件下载',
+  '↓下载',
   function(){
     window.location.href =
       'https://52realme.github.io/my-gallery/base.apk';
@@ -1324,9 +1324,9 @@ const downloadSoftware = makeSoftwareButton(
 
 
 
-// ③ 复制自制链接
+// ③ 复制链接
 const copySoftwareLink = makeSoftwareButton(
-  '🔗 复制自制链接',
+  '🔗 复制链接',
   async function(){
 
     const myLink =
