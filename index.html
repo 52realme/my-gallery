@@ -1323,7 +1323,7 @@ const downloadSoftware = makeSoftwareButton(
 );
 
 
-// ② 打开指定软件：已安装就打开，未安装就下载 APK
+// ② 打开指定软件
 const openSoftware = makeSoftwareButton(
   '📱 打开指定软件',
   function(){
@@ -1331,45 +1331,39 @@ const openSoftware = makeSoftwareButton(
     const packageName = 'com.xiaobo.electronic';
     const apkUrl = 'https://52realme.github.io/my-gallery/base.apk';
 
-    let appOpened = false;
+    let leftPage = false;
 
-    // 如果浏览器成功切到软件
-    const onVisibilityChange = function(){
+    function checkPage(){
       if(document.hidden){
-        appOpened = true;
-        document.removeEventListener(
-          'visibilitychange',
-          onVisibilityChange
-        );
+        leftPage = true;
       }
-    };
+    }
 
-    document.addEventListener(
-      'visibilitychange',
-      onVisibilityChange
-    );
+    document.addEventListener('visibilitychange', checkPage);
 
-    // 尝试打开 Android 软件
-    window.location.href =
-      'intent://launch#Intent;' +
+    // 直接尝试启动已安装的 App
+    const intentUrl =
+      'intent:#Intent;' +
       'action=android.intent.action.MAIN;' +
       'category=android.intent.category.LAUNCHER;' +
       'package=' + packageName + ';' +
       'end';
 
-    // 没有成功打开 → 下载 APK
+    window.location.href = intentUrl;
+
+    // 约 2 秒后仍然没有离开网页，就进入 APK 下载
     setTimeout(function(){
 
       document.removeEventListener(
         'visibilitychange',
-        onVisibilityChange
+        checkPage
       );
 
-      if(!appOpened){
+      if(!leftPage){
         window.location.href = apkUrl;
       }
 
-    }, 1800);
+    }, 2000);
   }
 );
 // ③ 复制自制链接
