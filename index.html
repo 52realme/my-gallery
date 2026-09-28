@@ -1269,7 +1269,98 @@ box-shadow:0 8px 30px rgba(0,0,0,.18);
 `;
 
 animeLink.insertAdjacentElement('afterend', chipLink);
+// ===== 指定软件三个按钮 =====
+const softwareBox = document.createElement('div');
 
+softwareBox.style.cssText = `
+position:fixed;
+right:18px;
+bottom:20px;
+z-index:99999;
+display:flex;
+flex-direction:column;
+gap:10px;
+width:220px;
+`;
+
+function makeSoftwareButton(text, clickFunction){
+  const btn = document.createElement('button');
+
+  btn.textContent = text;
+
+  btn.style.cssText = `
+  width:100%;
+  min-height:58px;
+  padding:12px 16px;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:20px;
+  color:#fff;
+  background:rgba(25,28,42,.82);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  box-shadow:0 8px 25px rgba(0,0,0,.25);
+  font-size:17px;
+  font-weight:700;
+  cursor:pointer;
+  `;
+
+  btn.addEventListener('click', clickFunction);
+
+  return btn;
+}
+
+// ① 指定软件下载
+const downloadSoftware = makeSoftwareButton(
+  '📦 指定软件下载',
+  function(){
+    window.location.href =
+      'https://52realme.github.io/my-gallery/base.apk';
+  }
+);
+
+// ② 打开指定软件
+const openSoftware = makeSoftwareButton(
+  '📱 打开指定软件',
+  function(){
+
+    window.location.href =
+      'intent://#Intent;' +
+      'action=android.intent.action.MAIN;' +
+      'category=android.intent.category.LAUNCHER;' +
+      'package=com.xiaobo.electronic;' +
+      'end';
+
+  }
+);
+
+// ③ 复制自制链接
+const copySoftwareLink = makeSoftwareButton(
+  '🔗 复制自制链接',
+  async function(){
+
+    const myLink =
+  '💖FW:56Wd5L2g55Sf5pel5b+r5LmQ8J+Ogu+8gQ|3';
+
+    try{
+
+      await navigator.clipboard.writeText(myLink);
+
+      alert('链接已复制');
+
+    }catch(err){
+
+      prompt('请复制下面的链接：', myLink);
+
+    }
+
+  }
+);
+
+softwareBox.appendChild(downloadSoftware);
+softwareBox.appendChild(openSoftware);
+softwareBox.appendChild(copySoftwareLink);
+
+document.body.appendChild(softwareBox);
 </script>
   <script>
 (function(){
